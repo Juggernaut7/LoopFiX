@@ -1,19 +1,9 @@
 [project]
-name = "LoopFiX"
-description = "AI-powered DeFi savings vaults on Bitcoin (Stacks)"
-authors = ["Juggernaut7"]
-telemetry = false
-cache_dir = ".cache"
+name = "loopfix"
 requirements = []
-
-[contracts.AdvisorNFT]
+[contracts.advisor-nft]
 path = "contracts/AdvisorNFT.clar"
-clarity_version = 2
-
-[contracts.GroupVault]
+[contracts.group-vault]
 path = "contracts/GroupVault.clar"
-clarity_version = 2
-
-[contracts.SavingsVault]
+[contracts.savings-vault]
 path = "contracts/SavingsVault.clar"
-clarity_version = 2
