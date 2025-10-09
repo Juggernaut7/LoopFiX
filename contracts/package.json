@@ -1,0 +1,35 @@
+{
+  "name": "loopfix-contracts",
+  "version": "1.0.0",
+  "description": "LoopFiX Smart Contracts - AI-powered DeFi savings on Bitcoin (Stacks)",
+  "main": "deploy.js",
+  "scripts": {
+    "deploy:testnet": "node deploy.js testnet",
+    "deploy:mainnet": "node deploy.js mainnet",
+    "check": "clarinet check",
+    "test": "clarinet test",
+    "console": "clarinet console"
+  },
+  "keywords": [
+    "stacks",
+    "clarity",
+    "defi",
+    "bitcoin",
+    "savings",
+    "smart-contracts"
+  ],
+  "author": "LoopFi Team",
+  "license": "MIT",
+  "dependencies": {
+    "@scure/bip32": "^1.3.3",
+    "@stacks/common": "^6.13.0",
+    "@stacks/network": "^6.13.0",
+    "@stacks/transactions": "^6.13.0",
+    "axios": "^1.12.2",
+    "bip39": "^3.1.0",
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

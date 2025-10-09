@@ -1,0 +1,30 @@
+# Environment variables (NEVER commit these!)
+.env
+.env.local
+.env.*.local
+
+# Private keys and secrets
+*.key
+*.pem
+*-key.js
+
+# Deployment info (contains transaction IDs)
+deployment-*.json
+
+# Node modules
+node_modules/
+package-lock.json
+
+# Clarinet
+.cache/
+settings/
+costs/
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+

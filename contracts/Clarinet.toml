@@ -1,0 +1,28 @@
+[project]
+name = "loopfix"
+description = "AI-powered DeFi savings vaults on Bitcoin (Stacks)"
+authors = ["LoopFi Team"]
+telemetry = false
+boot_contracts = []
+
+[contracts.savings-vault]
+path = "SavingsVault.clar"
+clarity_version = 2
+
+[contracts.group-vault]
+path = "GroupVault.clar"
+clarity_version = 2
+
+[contracts.advisor-nft]
+path = "AdvisorNFT.clar"
+clarity_version = 2
+
+[repl.analysis]
+passes = ["check_checker"]
+
+[repl.analysis.check_checker]
+strict = false
+trusted_sender = false
+trusted_caller = false
+callee_filter = false
+
