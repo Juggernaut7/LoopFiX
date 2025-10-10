@@ -1,110 +1,88 @@
-;; SavingsVault - Individual savings goals (Clarity 3 compatible)
+;; SavingsVault - Individual savings goals (Clarity 3)
 
-;; Constants
-(define-constant MIN-DEPOSIT u1000000)
-
-;; Error codes (numeric constants)
+;; Error codes
 (define-constant ERR-INVALID-AMOUNT u100)
-(define-constant ERR-VAULT-NOT-FOUND u103)
+(define-constant ERR-NOT-FOUND u103)
 (define-constant ERR-NOT-AUTHORIZED u105)
 (define-constant ERR-INSUFFICIENT-FUNDS u106)
 
 ;; Data
-(define-data-var next-vault-id uint u1)
+(define-data-var next-id uint u1)
 
-;; Vaults map: Clarity 3 syntax
-(define-map vaults
-  ((id uint))
-  ((owner principal)
-   (target uint)
-   (balance uint)
-   (created uint)
-   (active bool))
-)
+;; Maps using Clarity 2/3 compatible syntax (like hello-world)
+(define-map vaults { id: uint } {
+  owner: principal,
+  target: uint,
+  balance: uint,
+  created: uint
+})
 
 ;; Create vault
-(define-public (create-vault (target uint))
-  (let ((id (var-get next-vault-id)))
-    (asserts! (>= target MIN-DEPOSIT) (err ERR-INVALID-AMOUNT))
+(define-public (create-vault (target-amount uint))
+  (let ((vault-id (var-get next-id)))
+    (asserts! (>= target-amount u1000000) (err ERR-INVALID-AMOUNT))
     
-    (map-set vaults
-      ((id id))
-      ((owner tx-sender)
-       (target target)
-       (balance u0)
-       (created block-height)
-       (active true))
-    )
+    (map-set vaults { id: vault-id } {
+      owner: tx-sender,
+      target: target-amount,
+      balance: u0,
+      created: block-height
+    })
     
-    (var-set next-vault-id (+ id u1))
-    (ok id)
+    (var-set next-id (+ vault-id u1))
+    (ok vault-id)
   )
 )
 
-;; Deposit to vault
+;; Deposit
 (define-public (deposit (vault-id uint) (amount uint))
-  (let ((maybe-vault (map-get? vaults ((id vault-id)))))
-    (let ((vault (unwrap! maybe-vault (err ERR-VAULT-NOT-FOUND))))
-      (asserts! (is-eq tx-sender (get owner vault)) (err ERR-NOT-AUTHORIZED))
-      (asserts! (>= amount MIN-DEPOSIT) (err ERR-INVALID-AMOUNT))
+  (match (map-get? vaults { id: vault-id })
+    vault-data
+    (begin
+      (asserts! (is-eq tx-sender (get owner vault-data)) (err ERR-NOT-AUTHORIZED))
+      (asserts! (>= amount u1000000) (err ERR-INVALID-AMOUNT))
       
-      ;; Update vault with full tuple
-      (map-set vaults
-        ((id vault-id))
-        ((owner (get owner vault))
-         (target (get target vault))
-         (balance (+ (get balance vault) amount))
-         (created (get created vault))
-         (active (get active vault)))
-      )
+      (map-set vaults { id: vault-id } (merge vault-data {
+        balance: (+ (get balance vault-data) amount)
+      }))
       
       (ok true)
     )
+    (err ERR-NOT-FOUND)
   )
 )
 
-;; Withdraw from vault
+;; Withdraw
 (define-public (withdraw (vault-id uint) (amount uint))
-  (let ((maybe-vault (map-get? vaults ((id vault-id)))))
-    (let ((vault (unwrap! maybe-vault (err ERR-VAULT-NOT-FOUND))))
-      (asserts! (is-eq tx-sender (get owner vault)) (err ERR-NOT-AUTHORIZED))
-      (asserts! (>= (get balance vault) amount) (err ERR-INSUFFICIENT-FUNDS))
+  (match (map-get? vaults { id: vault-id })
+    vault-data
+    (begin
+      (asserts! (is-eq tx-sender (get owner vault-data)) (err ERR-NOT-AUTHORIZED))
+      (asserts! (>= (get balance vault-data) amount) (err ERR-INSUFFICIENT-FUNDS))
       
-      ;; Update vault with full tuple
-      (map-set vaults
-        ((id vault-id))
-        ((owner (get owner vault))
-         (target (get target vault))
-         (balance (- (get balance vault) amount))
-         (created (get created vault))
-         (active (get active vault)))
-      )
+      (map-set vaults { id: vault-id } (merge vault-data {
+        balance: (- (get balance vault-data) amount)
+      }))
       
       (ok true)
     )
+    (err ERR-NOT-FOUND)
   )
 )
 
-;; Read-only: get vault
+;; Read-only
 (define-read-only (get-vault (id uint))
-  (map-get? vaults ((id id)))
+  (map-get? vaults { id: id })
 )
 
-;; Read-only: get vault progress
-(define-read-only (get-vault-progress (id uint))
-  (let ((maybe-vault (map-get? vaults ((id id)))))
-    (let ((vault (unwrap! maybe-vault (err ERR-VAULT-NOT-FOUND))))
-      (ok {
-        progress: (/ (* (get balance vault) u100) (get target vault)),
-        target: (get target vault),
-        balance: (get balance vault)
-      })
-    )
+(define-read-only (get-progress (id uint))
+  (match (map-get? vaults { id: id })
+    vault-data
+    (ok {
+      progress: (/ (* (get balance vault-data) u100) (get target vault-data)),
+      target: (get target vault-data),
+      balance: (get balance vault-data)
+    })
+    (err ERR-NOT-FOUND)
   )
 )
-
-;; Read-only: get next vault ID
-(define-read-only (get-next-id)
-  (ok (var-get next-vault-id))
-)
-

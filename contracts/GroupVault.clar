@@ -1,187 +1,104 @@
-;; GroupVault - Collaborative savings pools (Clarity 3 compatible)
+;; GroupVault - Collaborative savings pools (Clarity 3)
 
-;; Constants - numeric only, use (err CONST) in assertions
-(define-constant MIN-CONTRIBUTION u1000000)
-(define-constant MAX-MEMBERS u50)
-
-;; Error codes (numeric constants)
+;; Error codes
 (define-constant ERR-INVALID-AMOUNT u100)
-(define-constant ERR-GROUP-NOT-FOUND u103)
-(define-constant ERR-NOT-AUTHORIZED u105)
-(define-constant ERR-MAX-MEMBERS u107)
-(define-constant ERR-ALREADY-MEMBER u108)
+(define-constant ERR-NOT-FOUND u103)
 (define-constant ERR-NOT-MEMBER u109)
+(define-constant ERR-MAX-MEMBERS u107)
 
 ;; Data
-(define-data-var next-group-id uint u1)
+(define-data-var next-id uint u1)
 
-;; Groups map: Clarity 3 syntax with separate key and value tuples
-(define-map groups
-  ((id uint))
-  ((creator principal)
-   (name (string-ascii 50))
-   (target uint)
-   (balance uint)
-   (member-count uint)
-   (active bool))
-)
+;; Maps using Clarity 2/3 compatible syntax
+(define-map groups { id: uint } {
+  creator: principal,
+  name: (string-ascii 50),
+  target: uint,
+  balance: uint,
+  members: uint
+})
 
-;; Members map: composite key (group id, user principal)
-(define-map group-members
-  ((group uint) (user principal))
-  ((amount uint) (joined uint))
-)
+(define-map members { group: uint, user: principal } {
+  amount: uint,
+  joined: uint
+})
 
-;; Create a group
-(define-public (create-group (name (string-ascii 50)) (target uint))
-  (let ((id (var-get next-group-id)))
-    ;; Validate minimum target
-    (asserts! (>= target MIN-CONTRIBUTION) (err ERR-INVALID-AMOUNT))
-
-    ;; Insert group record with full tuple
-    (map-set groups
-      ((id id))
-      ((creator tx-sender)
-       (name name)
-       (target target)
-       (balance u0)
-       (member-count u1)
-       (active true))
-    )
-
-    ;; Add creator as first member
-    (map-set group-members
-      ((group id) (user tx-sender))
-      ((amount u0) (joined block-height))
-    )
-
-    ;; Increment id for next group
-    (var-set next-group-id (+ id u1))
-
-    (ok id)
+;; Create group
+(define-public (create-group (group-name (string-ascii 50)) (target-amount uint))
+  (let ((group-id (var-get next-id)))
+    (asserts! (>= target-amount u1000000) (err ERR-INVALID-AMOUNT))
+    
+    (map-set groups { id: group-id } {
+      creator: tx-sender,
+      name: group-name,
+      target: target-amount,
+      balance: u0,
+      members: u1
+    })
+    
+    (map-set members { group: group-id, user: tx-sender } {
+      amount: u0,
+      joined: block-height
+    })
+    
+    (var-set next-id (+ group-id u1))
+    (ok group-id)
   )
 )
 
-;; Join an existing group
+;; Join group
 (define-public (join-group (group-id uint))
-  (let ((maybe-group (map-get? groups ((id group-id)))))
-    ;; Ensure group exists
-    (let ((group (unwrap! maybe-group (err ERR-GROUP-NOT-FOUND))))
-      ;; Check member limit
-      (asserts! (< (get member-count group) MAX-MEMBERS) (err ERR-MAX-MEMBERS))
-
-      ;; Ensure sender is not already a member
-      (asserts! (is-none (map-get? group-members ((group group-id) (user tx-sender)))) (err ERR-ALREADY-MEMBER))
-
-      ;; Add member record
-      (map-set group-members
-        ((group group-id) (user tx-sender))
-        ((amount u0) (joined block-height))
-      )
-
-      ;; Update member count by reconstructing full tuple
-      (map-set groups
-        ((id group-id))
-        ((creator (get creator group))
-         (name (get name group))
-         (target (get target group))
-         (balance (get balance group))
-         (member-count (+ (get member-count group) u1))
-         (active (get active group)))
-      )
-
-      (ok true)
-    )
-  )
-)
-
-;; Contribute to group
-(define-public (contribute (group-id uint) (amount uint))
-  (let (
-    (maybe-group (map-get? groups ((id group-id))))
-    (maybe-member (map-get? group-members ((group group-id) (user tx-sender))))
-  )
-    (let (
-      (group (unwrap! maybe-group (err ERR-GROUP-NOT-FOUND)))
-      (member (unwrap! maybe-member (err ERR-NOT-MEMBER)))
-    )
-      ;; Validate amount
-      (asserts! (>= amount MIN-CONTRIBUTION) (err ERR-INVALID-AMOUNT))
-
-      ;; Update member contribution
-      (map-set group-members
-        ((group group-id) (user tx-sender))
-        ((amount (+ (get amount member) amount))
-         (joined (get joined member)))
-      )
-
-      ;; Update group balance
-      (map-set groups
-        ((id group-id))
-        ((creator (get creator group))
-         (name (get name group))
-         (target (get target group))
-         (balance (+ (get balance group) amount))
-         (member-count (get member-count group))
-         (active (get active group)))
-      )
-
-      (ok true)
-    )
-  )
-)
-
-;; Withdraw share (if goal reached)
-(define-public (withdraw-share (group-id uint) (amount uint))
-  (let (
-    (maybe-group (map-get? groups ((id group-id))))
-    (maybe-member (map-get? group-members ((group group-id) (user tx-sender))))
-  )
-    (let (
-      (group (unwrap! maybe-group (err ERR-GROUP-NOT-FOUND)))
-      (member (unwrap! maybe-member (err ERR-NOT-MEMBER)))
-    )
-      ;; Check if goal is reached
-      (asserts! (>= (get balance group) (get target group)) (err ERR-NOT-AUTHORIZED))
+  (match (map-get? groups { id: group-id })
+    group-data
+    (begin
+      (asserts! (< (get members group-data) u50) (err ERR-MAX-MEMBERS))
+      (asserts! (is-none (map-get? members { group: group-id, user: tx-sender })) (err u108))
       
-      ;; Check member has enough contribution
-      (asserts! (>= (get amount member) amount) (err ERR-INVALID-AMOUNT))
-
-      ;; Update member
-      (map-set group-members
-        ((group group-id) (user tx-sender))
-        ((amount (- (get amount member) amount))
-         (joined (get joined member)))
-      )
-
-      ;; Update group balance
-      (map-set groups
-        ((id group-id))
-        ((creator (get creator group))
-         (name (get name group))
-         (target (get target group))
-         (balance (- (get balance group) amount))
-         (member-count (get member-count group))
-         (active (get active group)))
-      )
-
-      (ok amount)
+      (map-set members { group: group-id, user: tx-sender } {
+        amount: u0,
+        joined: block-height
+      })
+      
+      (map-set groups { id: group-id } (merge group-data {
+        members: (+ (get members group-data) u1)
+      }))
+      
+      (ok true)
     )
+    (err ERR-NOT-FOUND)
   )
 )
 
-;; Read-only: get group data
+;; Contribute
+(define-public (contribute (group-id uint) (amount uint))
+  (match (map-get? groups { id: group-id })
+    group-data
+    (match (map-get? members { group: group-id, user: tx-sender })
+      member-data
+      (begin
+        (asserts! (>= amount u1000000) (err ERR-INVALID-AMOUNT))
+        
+        (map-set members { group: group-id, user: tx-sender } (merge member-data {
+          amount: (+ (get amount member-data) amount)
+        }))
+        
+        (map-set groups { id: group-id } (merge group-data {
+          balance: (+ (get balance group-data) amount)
+        }))
+        
+        (ok true)
+      )
+      (err ERR-NOT-MEMBER)
+    )
+    (err ERR-NOT-FOUND)
+  )
+)
+
+;; Read-only
 (define-read-only (get-group (id uint))
-  (map-get? groups ((id id)))
+  (map-get? groups { id: id })
 )
 
-;; Read-only: get member data
 (define-read-only (get-member (group-id uint) (user principal))
-  (map-get? group-members ((group group-id) (user user)))
+  (map-get? members { group: group-id, user: user })
 )
-
-;; Read-only: get next group ID
-(define-read-only (get-next-id)
-  (ok (var-get next-group-id))
-)
-
