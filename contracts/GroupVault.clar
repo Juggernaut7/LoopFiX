@@ -38,7 +38,7 @@
     
     (map-set members { group: group-id, user: tx-sender } {
       amount: u0,
-      joined: block-height
+      joined: u1
     })
     
     (var-set next-id (+ group-id u1))
@@ -56,7 +56,7 @@
       
       (map-set members { group: group-id, user: tx-sender } {
         amount: u0,
-        joined: block-height
+        joined: u1
       })
       
       (map-set groups { id: group-id } (merge group-data {
