@@ -26,7 +26,7 @@
       owner: tx-sender,
       target: target-amount,
       balance: u0,
-      created: block-height
+      created: u1
     })
     
     (var-set next-id (+ vault-id u1))

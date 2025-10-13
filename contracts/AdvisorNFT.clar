@@ -36,7 +36,7 @@
       owner: tx-sender,
       milestone: milestone,
       amount: amount,
-      earned: block-height
+      earned: u1
     })
     
     ;; Mark as claimed
