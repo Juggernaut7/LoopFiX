@@ -40,8 +40,7 @@ const LandingPage = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const handleWatchDemo = () => {
-    // Could open a modal or navigate to demo page
-    alert('Demo video coming soon!');
+    window.open('https://youtu.be/bVrfGI-CAlA?feature=shared', '_blank');
   };
 
   const handleNewsletterSubscribe = () => {

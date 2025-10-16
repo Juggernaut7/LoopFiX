@@ -240,7 +240,7 @@ clarinet deploy --testnet advisor-nft
 
 ## 🧪 **Test Instructions for Judges**
 
-1. Go to [https://loopfix.vercel.app](https://loopfix.vercel.app)
+1. Go to [https://loop-fi-x.vercel.app](https://loop-fi-x.vercel.app)
 2. Connect **Leather Wallet** → Switch to **Testnet**
 3. Click **"Create Goal"** → set any target and amount
 4. Contribute a small amount (e.g., 1 STX testnet token)
@@ -249,6 +249,7 @@ clarinet deploy --testnet advisor-nft
 7. See smart contract interaction in real time
 
 📌 *Tip: Get free Testnet STX here* → [https://explorer.stacks.co/sandbox/faucet](https://explorer.stacks.co/sandbox/faucet)
+📹 *Watch Demo Video* → [https://youtu.be/bVrfGI-CAlA?feature=shared](https://youtu.be/bVrfGI-CAlA?feature=shared)
 
 ---
 
@@ -287,7 +288,7 @@ VITE_STACKS_CONTRACT_ADDRESS_SAVINGS_VAULT=ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ
 VITE_STACKS_CONTRACT_ADDRESS_GROUP_VAULT=ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ1KW.GroupVault
 VITE_STACKS_CONTRACT_ADDRESS_ADVISOR_NFT=ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ1KW.AdvisorNFT
 VITE_STACKS_CONTRACT_ADDRESS_STAKING_VAULT=ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ1KW.Staking-Vault
-VITE_API_URL=http://localhost:4000
+VITE_API_URL=https://loopfix.onrender.com
 VITE_APP_NAME=LoopFiX
 ```
 
@@ -297,6 +298,8 @@ MONGODB_URI=mongodb://localhost:27017/loopfix
 STACKS_NETWORK=testnet
 STACKS_API_URL=https://stacks-node-api.testnet.stacks.co
 PORT=4000
+APP_URL=https://loop-fi-x.vercel.app
+API_URL=https://loopfix.onrender.com
 ```
 
 ### **Run Development Servers**
@@ -419,10 +422,11 @@ clarinet console
 
 ## 📊 **Live Demo Links**
 
-- **Frontend**: [https://loopfi.vercel.app](https://loopfi.vercel.app)
-- **Smart Contracts**: [Stacks Explorer](https://explorer.stacks.co/address/ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM)
-- **GitHub**: [https://github.com/yourusername/loopfi](https://github.com/yourusername/loopfi)
-- **API Docs**: [https://loopfi-api.herokuapp.com/docs](https://loopfi-api.herokuapp.com/docs)
+- **Frontend**: [https://loop-fi-x.vercel.app](https://loop-fi-x.vercel.app)
+- **Backend API**: [https://loopfix.onrender.com](https://loopfix.onrender.com)
+- **Smart Contracts**: [Stacks Explorer](https://explorer.stacks.co/address/ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ1KW)
+- **GitHub**: [https://github.com/Juggernaut7/LoopFiX](https://github.com/Juggernaut7/LoopFiX)
+- **Demo Video**: [https://youtu.be/bVrfGI-CAlA?feature=shared](https://youtu.be/bVrfGI-CAlA?feature=shared)
 
 ---
 
