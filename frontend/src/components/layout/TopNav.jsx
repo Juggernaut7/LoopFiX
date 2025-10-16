@@ -109,7 +109,7 @@ const TopNav = ({ toggleSidebar, isCollapsed, unreadCount = 0 }) => {
     if (path.startsWith('/reports')) return 'Reports';
     if (path.startsWith('/settings')) return 'Settings';
     if (path.startsWith('/notifications')) return 'Notifications';
-    return 'LoopFi';
+    return 'LoopFiX';
   };
 
   const handleViewAll = () => {

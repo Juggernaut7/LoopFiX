@@ -88,7 +88,7 @@ const WalletCard = ({ wallet, onAddMoney, onViewTransactions, onWithdraw }) => {
               </div>
               <div>
                 <h3 className="font-display text-h4 text-white">
-                  LoopFi Wallet
+                  LoopFiX Wallet
                 </h3>
                 <p className="font-body text-body-sm text-white/80">
                   Your digital wallet

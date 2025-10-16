@@ -48,7 +48,7 @@ class WalletService {
     return new Promise((resolve, reject) => {
       showConnect({
         appDetails: {
-          name: 'LoopFi',
+          name: 'LoopFiX',
           icon: window.location.origin + '/logo.jpg',
         },
         redirectTo: '/app/dashboard',

@@ -39,7 +39,7 @@ class StacksService {
     try {
       const userData = await showConnect({
         appDetails: {
-          name: 'LoopFi',
+          name: 'LoopFiX',
           icon: window.location.origin + '/logo.jpg'
         },
         redirectTo: '/',
@@ -171,7 +171,7 @@ class StacksService {
         functionArgs,
         network: this.network,
         appDetails: {
-          name: 'LoopFi',
+          name: 'LoopFiX',
           icon: window.location.origin + '/logo.jpg'
         },
         onFinish: (payload) => {
@@ -218,7 +218,7 @@ class StacksService {
         functionArgs,
         network: this.network,
         appDetails: {
-          name: 'LoopFi',
+          name: 'LoopFiX',
           icon: window.location.origin + '/logo.jpg'
         },
         onFinish: (payload) => {
@@ -266,7 +266,7 @@ class StacksService {
         functionArgs,
         network: this.network,
         appDetails: {
-          name: 'LoopFi',
+          name: 'LoopFiX',
           icon: window.location.origin + '/logo.jpg'
         },
         onFinish: (payload) => {
@@ -313,7 +313,7 @@ class StacksService {
         functionArgs,
         network: this.network,
         appDetails: {
-          name: 'LoopFi',
+          name: 'LoopFiX',
           icon: window.location.origin + '/logo.jpg'
         },
         onFinish: (payload) => {

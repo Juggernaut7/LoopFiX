@@ -60,7 +60,7 @@ const Logo = ({ className = '', size = 'default', showText = true }) => {
       >
         <img
           src="/src/assets/logo1jpp.png"
-          alt="LoopFund Logo"
+          alt="LoopFiX Logo"
           className="w-full h-full object-cover"
         />
         

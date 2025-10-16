@@ -32,7 +32,7 @@ const Logo = ({
       <div className={`${sizeClasses[size]} rounded-xl overflow-hidden shadow-lg border-2 border-white/20 dark:border-white/10`}>
         <img 
           src={logoImage} 
-          alt="LoopFund Logo" 
+          alt="LoopFiX Logo" 
           className="w-full h-full object-cover"
         />
       </div>

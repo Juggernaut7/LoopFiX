@@ -78,12 +78,12 @@ const Navigation = () => {
               >
                 <img 
                   src={logo} 
-                  alt="LoopFund Logo" 
+                  alt="LoopFiX Logo" 
                   className="w-full h-full object-cover rounded-lg"
                 />
               </motion.div>
               <span className="font-display text-h4 text-loopfund-midnight-900 dark:text-loopfund-dark-text group-hover:text-gradient transition-all duration-300">
-                LoopFi
+                LoopFiX
               </span>
             </Link>
           </motion.div>
