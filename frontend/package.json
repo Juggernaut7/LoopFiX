@@ -1,7 +1,7 @@
 {
-  "name": "loopfund-frontend",
+  "name": "loopfix-frontend",
   "version": "1.0.0",
-  "description": "LoopFi Smart Savings Platform - Frontend Application (Academic Project)",
+  "description": "LoopFiX Smart Savings Platform - Frontend Application (Academic Project)",
   "private": true,
   "license": "UNLICENSED",
   "author": "Your Name <your.email@university.edu>",

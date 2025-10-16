@@ -314,7 +314,7 @@ const LandingPage = () => {
               What Are You Saving For?
             </h2>
             <p className="font-body text-body-xl text-loopfund-neutral-600 dark:text-loopfund-neutral-400 max-w-3xl mx-auto leading-relaxed">
-              From personal dreams to shared adventures, discover how LoopFi helps you achieve any financial goal.
+              From personal dreams to shared adventures, discover how LoopFiX helps you achieve any financial goal.
             </p>
           </div>
 
@@ -352,7 +352,7 @@ const LandingPage = () => {
               Loved by Thousands
             </h2>
             <p className="font-body text-body-lg text-loopfund-neutral-600 dark:text-loopfund-neutral-400 max-w-3xl mx-auto leading-relaxed">
-              See how LoopFi is helping people achieve their financial dreams, both individually and together.
+              See how LoopFiX is helping people achieve their financial dreams, both individually and together.
             </p>
           </div>
 
@@ -429,9 +429,9 @@ const LandingPage = () => {
             <div className="lg:col-span-1">
               <div className="flex items-center space-x-3 mb-6">
                 <div className="w-12 h-12 bg-gradient-to-r from-loopfund-emerald-500 to-loopfund-coral-500 rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
-                  <img src={logo1} alt="LoopFi" className="w-full h-full object-cover rounded-xl" />
+                  <img src={logo1} alt="LoopFiX" className="w-full h-full object-cover rounded-xl" />
                 </div>
-                <span className="font-display text-h3 text-white">LoopFi</span>
+                <span className="font-display text-h3 text-white">LoopFiX</span>
               </div>
               <p className="font-body text-body-md text-white/80 leading-relaxed mb-6">
                 Transform your savings into DeFi yield with AI-powered recommendations on Bitcoin's most secure Layer 2.
@@ -512,7 +512,7 @@ const LandingPage = () => {
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6">
                 <p className="text-slate-400 text-lg">
-                  © 2024 LoopFi. All rights reserved.
+                  © 2024 LoopFiX. All rights reserved.
                 </p>
                 <div className="flex space-x-6">
                   <a href="#" className="text-loopfund-neutral-400 hover:text-loopfund-emerald-400 transition-colors duration-200 font-body text-body-lg">Privacy Policy</a>

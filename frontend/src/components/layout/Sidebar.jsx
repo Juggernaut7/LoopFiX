@@ -130,6 +130,13 @@ const Sidebar = ({ isCollapsed, toggleSidebar, unreadCount = 0 }) => {
       comingSoon: true
     },
     {
+      title: 'Notifications',
+      icon: Bell,
+      path: '/app/notifications',
+      badge: null,
+      description: 'Stay updated'
+    },
+    {
       title: 'Settings',
       icon: Settings,
       path: '/app/settings',
@@ -207,9 +214,9 @@ const Sidebar = ({ isCollapsed, toggleSidebar, unreadCount = 0 }) => {
                 className="w-10 h-10 bg-gradient-to-r from-loopfund-emerald-500 to-loopfund-coral-500 rounded-xl flex items-center justify-center shadow-lg overflow-hidden p-1"
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <img src={logo1} alt="LoopFi" className="w-full h-full object-cover rounded-lg" />
+                <img src={logo1} alt="LoopFiX" className="w-full h-full object-cover rounded-lg" />
               </motion.div>
-              <span className="font-display text-display-sm text-loopfund-neutral-50 font-bold">LoopFi</span>
+              <span className="font-display text-display-sm text-loopfund-neutral-50 font-bold">LoopFiX</span>
             </div>
           )}
         </motion.div>

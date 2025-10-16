@@ -1,7 +1,7 @@
 {
-  "name": "loopfund-backend",
+  "name": "loopfix-backend",
   "version": "1.0.0",
-  "description": "LoopFi Smart Savings Platform - Backend API (Academic Project)",
+  "description": "LoopFiX Smart Savings Platform - Backend API (Academic Project)",
   "private": true,
   "license": "UNLICENSED",
   "author": "Your Name <your.email@university.edu>",

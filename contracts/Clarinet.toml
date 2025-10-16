@@ -1,7 +1,7 @@
 [project]
 name = "loopfix"
 description = "AI-powered DeFi savings vaults on Bitcoin (Stacks)"
-authors = ["LoopFi Team"]
+authors = ["LoopFiX Team"]
 telemetry = false
 boot_contracts = []
 

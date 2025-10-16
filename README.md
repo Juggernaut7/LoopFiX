@@ -1,13 +1,13 @@
-# 🚀 LoopFi - AI-Powered DeFi Savings Platform on Bitcoin
+# 🚀 LoopFiX - AI-Powered DeFi Savings Platform on Bitcoin
 
 > **Transform your savings into DeFi yield with AI-powered recommendations on Bitcoin's most secure Layer 2.**
 
-![LoopFi Banner](https://img.shields.io/badge/LoopFi-DeFi%20Savings%20Platform-blue?style=for-the-badge&logo=bitcoin)
+![LoopFiX Banner](https://img.shields.io/badge/LoopFiX-DeFi%20Savings%20Platform-blue?style=for-the-badge&logo=bitcoin)
 ![Stacks](https://img.shields.io/badge/Built%20on-Stacks%20(Bitcoin%20L2)-orange?style=for-the-badge)
 ![AI Powered](https://img.shields.io/badge/AI-Powered%20Advisor-purple?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Hackathon%20Ready-green?style=for-the-badge)
 
-💡 **LoopFi transforms traditional savings into smart Bitcoin-backed investments — bridging Web2 habits with Web3 yield through AI-driven financial guidance.**
+💡 **LoopFiX transforms traditional savings into smart Bitcoin-backed investments — bridging Web2 habits with Web3 yield through AI-driven financial guidance.**
 
 ## 🎯 **Hackathon Submission Ready**
 
@@ -135,13 +135,27 @@ graph TB
 
 | Contract | Address | Purpose | Status |
 |----------|---------|---------|--------|
-| **SavingsVault** | `ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.loopfi-vault` | Individual savings goals | ✅ Live |
-| **GroupVault** | `ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.loopfi-group` | Collaborative savings | ✅ Live |
-| **StakingVault** | `ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.loopfi-staking` | Yield generation | ✅ Live |
-| **AdvisorNFT** | `ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.loopfi-nft` | Achievement system | ✅ Live |
+| **SavingsVault** | `ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ1KW.SavingsVault` | Individual savings goals | ✅ Live |
+| **GroupVault** | `ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ1KW.GroupVault` | Collaborative savings | ✅ Live |
+| **StakingVault** | `ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ1KW.Staking-Vault` | Yield generation | ✅ Live |
+| **AdvisorNFT** | `ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ1KW.AdvisorNFT` | Achievement system | ✅ Live |
 
 **Network**: Stacks Testnet  
-**Explorer**: [View on Stacks Explorer](https://explorer.stacks.co/address/ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM)
+**Deployer**: `ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ1KW`  
+**Explorer**: [View on Stacks Explorer](https://explorer.stacks.co/address/ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ1KW)
+
+### Contract Deployment Commands
+```bash
+# Deploy all contracts to testnet
+cd contracts
+clarinet deploy --testnet
+
+# Deploy individual contracts
+clarinet deploy --testnet savings-vault
+clarinet deploy --testnet group-vault
+clarinet deploy --testnet staking-vault
+clarinet deploy --testnet advisor-nft
+```
 
 ---
 
@@ -177,16 +191,21 @@ npm install
 **Frontend (.env)**
 ```env
 VITE_STACKS_NETWORK=testnet
-VITE_HIRO_API_URL=https://api.testnet.hiro.so
-VITE_CONTRACT_ADDRESS=ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+VITE_STACKS_API_URL=https://stacks-node-api.testnet.stacks.co
+VITE_STACKS_CONTRACT_ADDRESS_SAVINGS_VAULT=ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ1KW.SavingsVault
+VITE_STACKS_CONTRACT_ADDRESS_GROUP_VAULT=ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ1KW.GroupVault
+VITE_STACKS_CONTRACT_ADDRESS_ADVISOR_NFT=ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ1KW.AdvisorNFT
+VITE_STACKS_CONTRACT_ADDRESS_STAKING_VAULT=ST781EDA6M5Z97NN7RF5Y1NMWTKD5SWWSB6EZ1KW.Staking-Vault
+VITE_API_URL=http://localhost:4000
+VITE_APP_NAME=LoopFiX
 ```
 
 **Backend (.env)**
 ```env
-MONGODB_URI=mongodb://localhost:27017/loopfi
+MONGODB_URI=mongodb://localhost:27017/loopfix
 STACKS_NETWORK=testnet
-HIRO_API_URL=https://api.testnet.hiro.so
-PORT=5000
+STACKS_API_URL=https://stacks-node-api.testnet.stacks.co
+PORT=4000
 ```
 
 ### **Run Development Servers**
