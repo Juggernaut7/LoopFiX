@@ -17,6 +17,10 @@ clarity_version = 2
 path = "AdvisorNFT.clar"
 clarity_version = 2
 
+[contracts.staking-vault]
+path = "StakingVault.clar"
+clarity_version = 2
+
 [repl.analysis]
 passes = ["check_checker"]
 

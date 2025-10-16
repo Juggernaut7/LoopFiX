@@ -62,12 +62,36 @@ async function joinGroup({ inviteCode, userId }) {
 
 async function listGroups(userId) {
   // Fix: Query the nested user field in members array
-  return Group.find({ 
+  const groups = await Group.find({ 
     $or: [
       { createdBy: userId }, 
       { 'members.user': userId }  // Query nested user field
     ] 
   }).lean();
+
+  // Calculate progress for each group
+  return groups.map(group => {
+    // Calculate progress
+    const progress = group.targetAmount > 0 
+      ? Math.min((group.currentAmount / group.targetAmount) * 100, 100)
+      : 0;
+
+    // Calculate days remaining
+    const now = new Date();
+    const endDate = group.endDate || new Date(now.getTime() + (group.durationMonths * 30 * 24 * 60 * 60 * 1000));
+    const daysRemaining = Math.max(0, Math.ceil((endDate - now) / (1000 * 60 * 60 * 24)));
+
+    // Add calculated progress to group
+    return {
+      ...group,
+      progress: {
+        percentage: Math.round(progress),
+        daysRemaining: daysRemaining,
+        activeMembers: group.members.filter(m => m.isActive).length,
+        totalContributions: group.members.reduce((sum, m) => sum + (m.totalContributed || 0), 0)
+      }
+    };
+  });
 }
 
 const deleteGroup = async (groupId, userId) => {
@@ -144,11 +168,43 @@ async function getGroupDetails(groupId, userId) {
   }
 }
 
+async function updateGroup(groupId, updateData, userId) {
+  try {
+    const group = await Group.findById(groupId);
+
+    if (!group) {
+      throw new Error('Group not found');
+    }
+
+    // Check if user is a member of the group
+    const isMember = group.members.some(member => 
+      member.user && member.user.toString() === userId
+    ) || group.createdBy.toString() === userId;
+
+    if (!isMember) {
+      throw new Error('You are not a member of this group');
+    }
+
+    // Update the group with the provided data
+    const updatedGroup = await Group.findByIdAndUpdate(
+      groupId,
+      { $set: updateData },
+      { new: true, runValidators: true }
+    );
+
+    return updatedGroup;
+  } catch (error) {
+    console.error('❌ Update group error:', error);
+    throw error;
+  }
+}
+
 
 module.exports = { 
   createGroup, 
   joinGroup, 
   listGroups, 
   deleteGroup,
-  getGroupDetails
+  getGroupDetails,
+  updateGroup
 };

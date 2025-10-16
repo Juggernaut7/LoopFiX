@@ -1,238 +1,323 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Brain, 
-  MessageCircle, 
-  Send,
-  Mic,
-  MicOff,
-  BarChart3,
-  TrendingUp,
-  DollarSign,
-  Target,
-  Lightbulb,
   Sparkles,
-  Loader2,
-  RefreshCw,
-  Download,
-  Share2,
-  Settings,
-  X,
-  Plus,
-  PieChart,
-  LineChart,
-  Activity
+  Clock,
+  Rocket,
+  Zap,
+  Target,
+  TrendingUp,
+  Shield,
+  Users,
+  Star,
+  ArrowRight,
+  CheckCircle,
+  XCircle,
+  AlertCircle
 } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
-import { useAuthStore } from '../store/useAuthStore';
-import ModernAIFinancialAdvisor from '../components/ai/ModernAIFinancialAdvisor';
-import FinancialInsightsPanel from '../components/ai/FinancialInsightsPanel';
 
 const AIAdvisorPage = () => {
-  const [showNewChat, setShowNewChat] = useState(false);
-  const [userProfile, setUserProfile] = useState(null);
-  const [activeInsight, setActiveInsight] = useState('spending');
+  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
-  const { user } = useAuthStore();
 
-  const recommendations = [
+  useEffect(() => {
+    // Simulate loading
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const features = [
     {
-      id: 1,
-      title: "Reduce dining out expenses",
-      description: "You're spending 35% on food. Try meal planning to save $200/month.",
-      action: "Set Budget",
-      priority: "high",
-      impact: "Save $200/month"
+      icon: <Brain className="w-6 h-6" />,
+      title: "Personalized Recommendations",
+      description: "AI-powered financial advice tailored to your goals and risk profile",
+      status: "coming-soon"
     },
     {
-      id: 2,
-      title: "Increase emergency fund",
-      description: "Build 3-6 months of expenses. You're currently at 1.2 months.",
-      action: "Create Goal",
-      priority: "medium",
-      impact: "Financial security"
+      icon: <TrendingUp className="w-6 h-6" />,
+      title: "Market Analysis",
+      description: "Real-time DeFi market insights and yield optimization strategies",
+      status: "coming-soon"
     },
     {
-      id: 3,
-      title: "Start investing",
-      description: "Consider a low-cost index fund for long-term growth.",
-      action: "Learn More",
-      priority: "low",
-      impact: "Build wealth"
+      icon: <Target className="w-6 h-6" />,
+      title: "Goal Optimization",
+      description: "Smart suggestions to accelerate your savings goals",
+      status: "coming-soon"
+    },
+    {
+      icon: <Shield className="w-6 h-6" />,
+      title: "Risk Assessment",
+      description: "Advanced risk analysis for your DeFi investments",
+      status: "coming-soon"
     }
   ];
 
-  useEffect(() => {
-    loadUserProfile();
-  }, []);
-
-  const loadUserProfile = async () => {
-    try {
-      const response = await fetch('http://localhost:4000/api/user/profile', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        }
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setUserProfile(data.user || data);
-      }
-    } catch (error) {
-      console.error('Error loading user profile:', error);
-      // Set mock user profile for testing
-      setUserProfile({
-        firstName: 'Ahmad',
-        lastName: 'Soliu Bolakale',
-        email: 'juggernaut0700@gmail.com',
-        income: 5000,
-        age: 25
-      });
+  const roadmap = [
+    {
+      phase: "Phase 1",
+      title: "Core AI Integration",
+      description: "Basic financial recommendations and goal tracking",
+      timeline: "Q2 2024",
+      status: "in-progress"
+    },
+    {
+      phase: "Phase 2", 
+      title: "Advanced Analytics",
+      description: "Market prediction and portfolio optimization",
+      timeline: "Q3 2024",
+      status: "planned"
+    },
+    {
+      phase: "Phase 3",
+      title: "Full AI Advisor",
+      description: "Complete AI-powered financial planning suite",
+      timeline: "Q4 2024",
+      status: "planned"
     }
-  };
+  ];
 
-  const handleNewChat = () => {
-    setShowNewChat(false);
-    // The ModernAIFinancialAdvisor component will handle its own conversation state
-  };
-
-  const handleInsightChange = (insightType) => {
-    setActiveInsight(insightType);
-  };
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center"
+        >
+          <div className="relative">
+            <div className="w-20 h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mb-6 mx-auto">
+              <Brain className="w-10 h-10 text-white animate-pulse" />
+            </div>
+            <div className="absolute -top-2 -right-2">
+              <Sparkles className="w-6 h-6 text-yellow-500 animate-spin" />
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+            Preparing AI Advisor
+          </h2>
+          <p className="text-slate-600 dark:text-slate-400">
+            Loading advanced financial intelligence...
+          </p>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
-        {/* Header */}
-        <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-4">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg">
-                <Brain className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                  AI Financial Advisor
-                </h1>
-                <p className="text-slate-600 dark:text-slate-400">
-                  Your personal AI-powered financial planning assistant
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      {/* Header */}
+      <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-700 px-6 py-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <div className="p-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl">
+              <Brain className="w-8 h-8 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
+                AI Financial Advisor
+              </h1>
+              <p className="text-slate-600 dark:text-slate-400">
+                Coming Soon - Your personal AI-powered financial planning assistant
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 px-4 py-2 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-full">
+              <Clock className="w-4 h-4" />
+              <span className="text-sm font-medium">Coming Soon</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* Coming Soon Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 rounded-2xl p-8 mb-8 text-white relative overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <div className="flex items-center space-x-3 mb-4">
+                  <Rocket className="w-8 h-8" />
+                  <h2 className="text-3xl font-bold">AI Financial Advisor</h2>
+                </div>
+                <p className="text-xl text-blue-100 mb-6 max-w-2xl">
+                  Get personalized financial recommendations powered by advanced AI. 
+                  Our advisor will analyze your goals, risk profile, and market conditions 
+                  to provide intelligent investment strategies.
                 </p>
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2 px-3 py-1 bg-white/20 rounded-full backdrop-blur-sm">
+                    <Zap className="w-4 h-4" />
+                    <span className="text-sm font-medium">AI-Powered</span>
+                  </div>
+                  <div className="flex items-center space-x-2 px-3 py-1 bg-white/20 rounded-full backdrop-blur-sm">
+                    <Shield className="w-4 h-4" />
+                    <span className="text-sm font-medium">Secure</span>
+                  </div>
+                  <div className="flex items-center space-x-2 px-3 py-1 bg-white/20 rounded-full backdrop-blur-sm">
+                    <Users className="w-4 h-4" />
+                    <span className="text-sm font-medium">Personalized</span>
+                  </div>
+                </div>
+              </div>
+              <div className="hidden lg:block">
+                <div className="w-32 h-32 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
+                  <Brain className="w-16 h-16 text-white" />
+                </div>
               </div>
             </div>
-            <div className="flex items-center space-x-3">
-              <button
-                onClick={() => setShowNewChat(true)}
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          </div>
+        </motion.div>
+
+        {/* Features Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white">
+                  {feature.icon}
+                </div>
+                <div className="flex items-center space-x-1 px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full">
+                  <Clock className="w-3 h-3" />
+                  <span className="text-xs font-medium">Soon</span>
+                </div>
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
+                {feature.title}
+              </h3>
+              <p className="text-slate-600 dark:text-slate-400 text-sm">
+                {feature.description}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Roadmap Section */}
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700 mb-8">
+          <div className="flex items-center space-x-3 mb-6">
+            <Target className="w-6 h-6 text-blue-600" />
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+              Development Roadmap
+            </h2>
+          </div>
+          
+          <div className="space-y-6">
+            {roadmap.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="flex items-center space-x-4 p-4 bg-slate-50 dark:bg-slate-700 rounded-lg"
               >
-                <Plus className="w-4 h-4" />
-                <span>New Chat</span>
+                <div className="flex-shrink-0">
+                  {item.status === 'in-progress' ? (
+                    <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                      <div className="w-6 h-6 bg-blue-600 rounded-full animate-pulse"></div>
+                    </div>
+                  ) : item.status === 'planned' ? (
+                    <div className="w-10 h-10 bg-slate-100 dark:bg-slate-600 rounded-full flex items-center justify-center">
+                      <Clock className="w-5 h-5 text-slate-400" />
+                    </div>
+                  ) : (
+                    <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                    </div>
+                  )}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="font-semibold text-slate-900 dark:text-white">
+                      {item.phase}: {item.title}
+                    </h3>
+                    <span className="text-sm text-slate-500 dark:text-slate-400">
+                      {item.timeline}
+                    </span>
+                  </div>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm">
+                    {item.description}
+                  </p>
+                </div>
+                <div className="flex-shrink-0">
+                  {item.status === 'in-progress' && (
+                    <div className="flex items-center space-x-1 px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+                      <span className="text-xs font-medium">In Progress</span>
+                    </div>
+                  )}
+                  {item.status === 'planned' && (
+                    <div className="flex items-center space-x-1 px-2 py-1 bg-slate-100 dark:bg-slate-600 text-slate-600 dark:text-slate-400 rounded-full">
+                      <Clock className="w-3 h-3" />
+                      <span className="text-xs font-medium">Planned</span>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Call to Action */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 text-white text-center"
+        >
+          <div className="max-w-2xl mx-auto">
+            <Star className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
+            <h2 className="text-3xl font-bold mb-4">
+              Be the First to Experience AI-Powered DeFi
+            </h2>
+            <p className="text-xl text-slate-300 mb-6">
+              Join our waitlist to get early access to the AI Financial Advisor 
+              and receive exclusive updates on new features.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={() => toast({
+                  title: "Coming Soon!",
+                  description: "AI Advisor will be available in Phase 2 of our roadmap.",
+                  type: "info"
+                })}
+                className="flex items-center justify-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors font-medium"
+              >
+                <span>Join Waitlist</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => toast({
+                  title: "Stay Updated",
+                  description: "Follow our progress on GitHub and social media.",
+                  type: "info"
+                })}
+                className="flex items-center justify-center space-x-2 px-6 py-3 border border-slate-600 hover:bg-slate-700 rounded-lg transition-colors font-medium"
+              >
+                <span>Follow Progress</span>
+                <Rocket className="w-4 h-4" />
               </button>
             </div>
           </div>
-        </div>
-
-        {/* Main Content - Modern AI Advisor Layout */}
-        <div className="flex-1 flex flex-col min-h-0 bg-slate-50 dark:bg-slate-900">
-          <div className="flex-1 flex flex-col lg:flex-row gap-6 p-6 min-h-0">
-            
-            {/* Left Panel - Chat Interface (70% width on large screens) */}
-            <div className="flex-1 flex flex-col min-h-0 lg:max-w-none">
-              <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 flex flex-col h-full min-h-[600px] overflow-hidden">
-                
-                {/* Enhanced Chat Header */}
-                <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 p-6 rounded-t-2xl">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                        <Sparkles className="w-7 h-7 text-white" />
-                      </div>
-                      <div>
-                        <h2 className="text-2xl font-bold text-white mb-1">
-                          AI Financial Advisor
-                        </h2>
-                        <p className="text-blue-100 text-sm">
-                          Your personal financial guidance assistant
-                        </p>
-                      </div>
-                    </div>
-                    <div className="hidden lg:flex items-center space-x-3">
-                      <div className="flex items-center space-x-2 px-3 py-1 bg-white/20 rounded-full backdrop-blur-sm">
-                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                        <span className="text-white text-xs font-medium">Online</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Chat Interface - Takes remaining space */}
-                <div className="flex-1 flex flex-col min-h-0">
-                  <ModernAIFinancialAdvisor 
-                    onInsightUpdate={handleInsightChange}
-                    userProfile={userProfile}
-                  />
-                </div>
-              </div>
-            </div>
-            
-            {/* Right Panel - Financial Insights (30% width on large screens) */}
-            <div className="w-full lg:w-96 xl:w-[420px] flex flex-col min-h-0">
-              <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 flex flex-col h-full min-h-[600px] overflow-hidden">
-                <FinancialInsightsPanel 
-                  activeInsight={activeInsight}
-                  recommendations={recommendations}
-                  onInsightChange={handleInsightChange}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* New Chat Confirmation Modal */}
-        <AnimatePresence>
-          {showNewChat && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
-              onClick={() => setShowNewChat(false)}
-            >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white dark:bg-slate-800 rounded-xl p-6 max-w-md w-full"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Start New Chat</h3>
-                  <button
-                    onClick={() => setShowNewChat(false)}
-                    className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-                <p className="text-slate-600 dark:text-slate-400 mb-6">
-                  Are you sure you want to start a new conversation? Your current chat history will be cleared.
-                </p>
-                <div className="flex space-x-3">
-                  <button
-                    onClick={() => setShowNewChat(false)}
-                    className="flex-1 px-4 py-2 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={handleNewChat}
-                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    Start New Chat
-                  </button>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        </motion.div>
       </div>
+    </div>
   );
 };
 

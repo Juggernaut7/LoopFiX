@@ -11,18 +11,34 @@ class WalletService {
   // Initialize wallet connection
   async initialize() {
     try {
+      console.log('🔍 Initializing wallet service...');
+      
       // Check if user is already connected
       const existingConnection = localStorage.getItem('loopfi_wallet_connection');
+      console.log('📦 Existing connection data:', existingConnection);
+      
       if (existingConnection) {
         const connectionData = JSON.parse(existingConnection);
+        console.log('📋 Parsed connection data:', connectionData);
+        
         this.isConnected = connectionData.isConnected;
         this.address = connectionData.address;
+        
+        console.log('✅ Wallet restored from localStorage:', {
+          isConnected: this.isConnected,
+          address: this.address
+        });
+        
         this.notifyListeners();
         return { isConnected: this.isConnected, address: this.address };
       }
+      
+      console.log('ℹ️ No existing connection found');
       return { isConnected: false, address: null };
     } catch (error) {
-      console.error('Error initializing wallet:', error);
+      console.error('❌ Error initializing wallet:', error);
+      // Clear corrupted data
+      localStorage.removeItem('loopfi_wallet_connection');
       return { isConnected: false, address: null };
     }
   }
@@ -86,11 +102,14 @@ class WalletService {
           this.address = address;
           
           // Save connection to localStorage
-          localStorage.setItem('loopfi_wallet_connection', JSON.stringify({
+          const connectionData = {
             isConnected: true,
             address: this.address,
             timestamp: Date.now()
-          }));
+          };
+          
+          console.log('💾 Saving wallet connection to localStorage:', connectionData);
+          localStorage.setItem('loopfi_wallet_connection', JSON.stringify(connectionData));
           
           this.notifyListeners();
           resolve({ isConnected: true, address: this.address });
@@ -108,13 +127,42 @@ class WalletService {
 
   // Disconnect wallet
   disconnectWallet() {
+    console.log('🔌 Disconnecting wallet...');
     this.isConnected = false;
     this.address = null;
     
     // Clear localStorage
     localStorage.removeItem('loopfi_wallet_connection');
+    console.log('🗑️ Cleared wallet connection from localStorage');
     
     this.notifyListeners();
+  }
+
+  // Get wallet address
+  getAddress() {
+    return this.address;
+  }
+
+  // Get wallet balance
+  async getBalance() {
+    try {
+      if (!this.isConnected || !this.address) {
+        return 0;
+      }
+
+      // Get balance from Stacks API
+      const response = await fetch(`https://stacks-node-api.testnet.stacks.co/extended/v1/address/${this.address}/stx`);
+      if (response.ok) {
+        const data = await response.json();
+        // Convert microSTX to STX
+        return (data.balance || 0) / 1000000;
+      }
+      
+      return 0;
+    } catch (error) {
+      console.error('Error getting wallet balance:', error);
+      return 0;
+    }
   }
 
   // Get connection status
@@ -168,6 +216,24 @@ class WalletService {
     } catch (error) {
       console.error('Error checking connection:', error);
       return { isConnected: false, address: null };
+    }
+  }
+
+  // Debug method to check localStorage
+  debugLocalStorage() {
+    console.log('🔍 localStorage Debug:');
+    console.log('  Raw data:', localStorage.getItem('loopfi_wallet_connection'));
+    
+    try {
+      const data = localStorage.getItem('loopfi_wallet_connection');
+      if (data) {
+        const parsed = JSON.parse(data);
+        console.log('  Parsed data:', parsed);
+        console.log('  Is recent?', Date.now() - parsed.timestamp < 24 * 60 * 60 * 1000);
+        console.log('  Age (hours):', (Date.now() - parsed.timestamp) / (1000 * 60 * 60));
+      }
+    } catch (error) {
+      console.error('  Parse error:', error);
     }
   }
 

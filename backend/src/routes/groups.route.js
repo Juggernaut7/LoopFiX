@@ -7,6 +7,7 @@ const {
   listGroups: listGroupsController,
   deleteGroup: deleteGroupController,
   getGroupDetails: getGroupDetailsController,
+  updateGroup: updateGroupController,
 } = require('../controllers/groups.controller');
 const { validateRequest } = require('../middleware/validateRequest');
 
@@ -55,6 +56,7 @@ router.post(
     body('name').isString().isLength({ min: 2 }),
     body('description').optional().isString(),
     body('targetAmount').optional().isFloat({ min: 0 }),
+    body('walletAddress').optional().isString(),
   ],
   validateRequest,
   createGroupController
@@ -83,7 +85,10 @@ router.post(
  */
 router.post(
   '/join',
-  [body('inviteCode').isString().isLength({ min: 10, max: 20 })],
+  [
+    body('inviteCode').isString().isLength({ min: 10, max: 20 }),
+    body('walletAddress').optional().isString(),
+  ],
   validateRequest,
   joinGroupController
 );
@@ -133,6 +138,41 @@ router.delete('/:groupId', deleteGroupController);
  *         description: Group not found
  */
 router.get('/:groupId', getGroupDetailsController);
+
+/**
+ * @openapi
+ * /api/groups/{groupId}:
+ *   put:
+ *     summary: Update group details
+ *     tags: [Groups]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: groupId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               currentAmount: { type: number }
+ *               lastDepositAmount: { type: number }
+ *               lastDepositTxId: { type: string }
+ *               walletAddress: { type: string }
+ *     responses:
+ *       200:
+ *         description: Group updated successfully
+ *       404:
+ *         description: Group not found
+ *       403:
+ *         description: Not authorized to update group
+ */
+router.put('/:groupId', updateGroupController);
 
 
 module.exports = router;

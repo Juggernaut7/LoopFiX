@@ -13,6 +13,9 @@ import DashboardPage from './pages/DashboardPage';
 import GoalsPage from './pages/GoalsPage';
 import EarnPage from './pages/EarnPage';
 import SettingsPage from './pages/SettingsPage';
+import AIAdvisorPage from './pages/AIAdvisorPage';
+import NFTPage from './pages/NFTPage';
+import LeaderboardPage from './pages/LeaderboardPage';
 
 import './App.css';
 
@@ -32,6 +35,9 @@ function App() {
                 <Route path="dashboard" element={<DashboardPage />} />
                 <Route path="goals" element={<GoalsPage />} />
                 <Route path="earn" element={<EarnPage />} />
+                <Route path="ai-advisor" element={<AIAdvisorPage />} />
+                <Route path="nft" element={<NFTPage />} />
+                <Route path="leaderboard" element={<LeaderboardPage />} />
                 <Route path="settings" element={<SettingsPage />} />
               </Route>
               

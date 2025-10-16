@@ -41,6 +41,10 @@ import { useToast } from '../context/ToastContext';
 import InviteModal from '../components/invitations/InviteModal';
 import { LoopFiButton, LoopFiCard, LoopFiInput } from '../components/ui';
 import { formatCurrency, formatCurrencySimple } from '../utils/currency';
+import walletService from '../services/walletService';
+import contractService from '../services/contractService';
+import defiService from '../services/defiService';
+import api from '../services/api';
 
 const GroupsPage = () => {
   const [groups, setGroups] = useState([]);
@@ -48,6 +52,8 @@ const GroupsPage = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
+  const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const [walletAddress, setWalletAddress] = useState(null);
   const { toast } = useToast();
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(null);
@@ -109,27 +115,67 @@ const GroupsPage = () => {
     try {
       setIsLoading(true);
       setError(null);
-      
-      const response = await fetch('http://localhost:4000/api/groups', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-          'Content-Type': 'application/json'
-        }
-      });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to fetch groups');
+      // Check wallet connection
+      const connectionStatus = await walletService.checkConnection();
+      setIsWalletConnected(connectionStatus.isConnected);
+      setWalletAddress(connectionStatus.address);
+
+      if (!connectionStatus.isConnected) {
+        console.log('Wallet not connected, using mock data');
+        // Use mock data when wallet not connected
+        const mockGroups = [
+          {
+            id: 1,
+            name: 'Family Vacation Pool',
+            targetAmount: 5.0,
+            currentAmount: 2.1,
+            members: 4,
+            deadline: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000),
+            apy: 15.7,
+            progress: 42,
+            description: 'Save for our family vacation to Europe',
+            creator: '0x123...abc',
+            isMember: false
+          }
+        ];
+        setGroups(mockGroups);
+        setIsLoading(false);
+        return;
       }
 
-      const data = await response.json();
-      setGroups(data.data || []);
-      
-      console.log('Groups fetched:', data);
+        // Load real data from backend API
+        console.log('Loading real groups data for wallet:', connectionStatus.address);
+        
+        // Get groups from backend API
+        const groupsResponse = await api.get('/groups', {
+          params: { walletAddress: connectionStatus.address }
+        });
+        if (groupsResponse.data.success) {
+          setGroups(groupsResponse.data.data || []);
+        }
+
     } catch (error) {
-      console.error('Error fetching groups:', error);
-      setError(error.message);
-      toast.error('Groups Error', 'Failed to load groups. Please try again.');
+      console.error('Error loading groups data:', error);
+      toast.error('Failed to load groups data');
+      
+      // Fallback to mock data on error
+      const mockGroups = [
+        {
+          id: 1,
+          name: 'Family Vacation Pool',
+          targetAmount: 5.0,
+          currentAmount: 2.1,
+          members: 4,
+          deadline: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000),
+          apy: 15.7,
+          progress: 42,
+          description: 'Save for our family vacation to Europe',
+          creator: '0x123...abc',
+          isMember: false
+        }
+      ];
+      setGroups(mockGroups);
     } finally {
       setIsLoading(false);
     }
@@ -138,6 +184,55 @@ const GroupsPage = () => {
   // Redirect to CreateGroupPage for payment integration
   const handleCreateGroup = () => {
     navigate('/create-group');
+  };
+
+  // Join a group using smart contract
+  const handleJoinGroup = async (groupId) => {
+    if (!isWalletConnected || !walletAddress) {
+      toast.error('Please connect your wallet first');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      
+      console.log('Joining group:', {
+        groupId,
+        walletAddress
+      });
+
+      // Join group using smart contract
+      const txResult = await contractService.joinGroupVault(groupId);
+
+      if (txResult.success) {
+        // Save group join to backend database
+        const joinData = {
+          groupId: groupId,
+          walletAddress: walletAddress,
+          contractTxId: txResult.txId
+        };
+
+        const backendResponse = await api.post('/groups/join', joinData);
+        
+        if (backendResponse.data.success) {
+          toast.success('Successfully joined the group! Transaction submitted.');
+          console.log('Transaction ID:', txResult.txId);
+          
+          // Refresh groups list
+          await fetchGroups();
+        } else {
+          throw new Error(backendResponse.data.error || 'Failed to save group join to database');
+        }
+      } else {
+        throw new Error(txResult.error || 'Failed to join group');
+      }
+
+    } catch (error) {
+      console.error('Error joining group:', error);
+      toast.error(`Failed to join group: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const deleteGroup = async (groupId) => {

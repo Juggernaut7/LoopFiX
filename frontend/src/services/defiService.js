@@ -1,7 +1,5 @@
 import api from './api';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
-
 /**
  * DeFi Service - Handles all DeFi-related API calls
  */
@@ -13,7 +11,7 @@ const defiService = {
    */
   async getDashboard(walletAddress) {
     try {
-      const response = await api.get(`${API_BASE_URL}/defi/dashboard`, {
+      const response = await api.get('/defi/dashboard', {
         params: { walletAddress }
       });
       return response.data;
@@ -30,7 +28,7 @@ const defiService = {
    */
   async getWallet(walletAddress) {
     try {
-      const response = await api.get(`${API_BASE_URL}/defi/wallet/${walletAddress}`);
+      const response = await api.get(`/defi/wallet/${walletAddress}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching wallet data:', error);
@@ -45,7 +43,7 @@ const defiService = {
    */
   async getVaults(walletAddress) {
     try {
-      const response = await api.get(`${API_BASE_URL}/defi/vaults`, {
+      const response = await api.get('/defi/vaults', {
         params: { walletAddress }
       });
       return response.data;
@@ -69,7 +67,7 @@ const defiService = {
    */
   async createVault(vaultData) {
     try {
-      const response = await api.post(`${API_BASE_URL}/defi/vaults`, vaultData);
+      const response = await api.post('/defi/vaults', vaultData);
       return response.data;
     } catch (error) {
       console.error('Error creating vault:', error);
@@ -85,7 +83,7 @@ const defiService = {
    */
   async getActivity(walletAddress, limit = 20) {
     try {
-      const response = await api.get(`${API_BASE_URL}/defi/activity`, {
+      const response = await api.get('/defi/activity', {
         params: { walletAddress, limit }
       });
       return response.data;

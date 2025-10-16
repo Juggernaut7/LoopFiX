@@ -50,6 +50,7 @@ router.post(
     body('groupId').optional().isMongoId(),
     body('frequency').isIn(['daily', 'weekly', 'monthly', 'custom']),
     body('amount').isFloat({ min: 0 }),
+    body('walletAddress').optional().isString(),
     body('customDates').optional().isArray(),
     body('customDates.*').optional().isISO8601().toDate(),
   ],

@@ -1,4 +1,4 @@
-const { createGroup, joinGroup, listGroups, deleteGroup, getGroupDetails } = require('../services/group.service');
+const { createGroup, joinGroup, listGroups, deleteGroup, getGroupDetails, updateGroup } = require('../services/group.service');
 const notificationService = require('../services/notification.service');
 
 // Helper function to format currency
@@ -94,11 +94,33 @@ async function getGroupDetailsController(req, res, next) {
   }
 }
 
+async function updateGroupController(req, res, next) {
+  try {
+    const { groupId } = req.params;
+    const userId = req.query.walletAddress || req.params.walletAddress || req.body.walletAddress;
+    const updateData = req.body;
+
+    console.log('🔄 Updating group:', groupId, 'by user:', userId, 'with data:', updateData);
+
+    const updatedGroup = await updateGroup(groupId, updateData, userId);
+    
+    res.json({
+      success: true,
+      data: updatedGroup,
+      message: 'Group updated successfully'
+    });
+  } catch (error) {
+    console.error('❌ Update group error:', error);
+    next(error);
+  }
+}
+
 
 module.exports = { 
   createGroup: createGroupController, 
   joinGroup: joinGroupController, 
   listGroups: listGroupsController,
   deleteGroup: deleteGroupController,
-  getGroupDetails: getGroupDetailsController
+  getGroupDetails: getGroupDetailsController,
+  updateGroup: updateGroupController
 };

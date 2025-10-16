@@ -51,7 +51,7 @@ const getDeFiDashboard = async (req, res, next) => {
     // Get user's group vaults
     const groupVaults = await Group.find({ 
       'members.user': walletAddress 
-    }).populate('members.user', 'address');
+    });
 
     // Calculate total values
     const totalDeposited = vaults.reduce((sum, vault) => sum + (vault.currentAmount || 0), 0);
@@ -423,8 +423,8 @@ function getNextMilestone(vaults) {
  * Get user's contribution to a group vault
  */
 function getUserContribution(group, walletAddress) {
-  const member = group.members.find(m => m.user === walletAddress || m.user?._id?.toString() === walletAddress);
-  return member ? member.contribution : 0;
+  const member = group.members.find(m => m.user === walletAddress);
+  return member ? member.totalContributed : 0;
 }
 
 module.exports = {

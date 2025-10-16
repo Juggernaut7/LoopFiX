@@ -128,7 +128,7 @@ const DashboardPage = () => {
 
     // Only fetch data if wallet is connected
     if (isWalletConnected) {
-      fetchDashboardData();
+    fetchDashboardData();
     }
   }, [toast, isWalletConnected]);
 
@@ -174,8 +174,8 @@ const DashboardPage = () => {
       setRealAchievements(mockWeb3Achievements);
       setAchievementsLoading(false);
     } else {
-      setAchievementsLoading(false);
-    }
+        setAchievementsLoading(false);
+      }
   }, [isWalletConnected]);
 
   // Check wallet connection status
@@ -439,18 +439,18 @@ const DashboardPage = () => {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="font-display text-h3 text-loopfund-neutral-900 dark:text-loopfund-dark-text mb-2">
-                  🚀 DeFi Dashboard
+                  💰 Smart Savings
                 </h3>
                 <p className="text-loopfund-neutral-600 dark:text-loopfund-neutral-400">
-                  AI-powered DeFi advisor on Bitcoin via Stacks
+                  Earn yield on your savings with smart contracts
                 </p>
               </div>
               <Link
-                to="/defi"
+                to="/goals"
                 className="inline-flex items-center px-4 py-2 bg-loopfund-emerald-600 hover:bg-loopfund-emerald-700 text-white rounded-lg transition-colors duration-200"
               >
-                <Wallet className="w-4 h-4 mr-2" />
-                Open DeFi
+                <Target className="w-4 h-4 mr-2" />
+                Create Goal
                 <ArrowUpRight className="w-4 h-4 ml-2" />
               </Link>
             </div>
@@ -463,7 +463,7 @@ const DashboardPage = () => {
                   </div>
                   <div>
                     <p className="font-medium text-loopfund-neutral-900 dark:text-loopfund-dark-text">
-                      Stake STX
+                      STX Savings
                     </p>
                     <p className="text-sm text-loopfund-neutral-600 dark:text-loopfund-neutral-400">
                       8.5% APY • Low Risk
@@ -479,7 +479,7 @@ const DashboardPage = () => {
                   </div>
                   <div>
                     <p className="font-medium text-loopfund-neutral-900 dark:text-loopfund-dark-text">
-                      Bitcoin Yield
+                      Bitcoin Rewards
                     </p>
                     <p className="text-sm text-loopfund-neutral-600 dark:text-loopfund-neutral-400">
                       12.3% APY • Medium Risk
@@ -495,10 +495,10 @@ const DashboardPage = () => {
                   </div>
                   <div>
                     <p className="font-medium text-loopfund-neutral-900 dark:text-loopfund-dark-text">
-                      AI Advisor
+                      Smart Insights
                     </p>
                     <p className="text-sm text-loopfund-neutral-600 dark:text-loopfund-neutral-400">
-                      Personalized DeFi insights
+                      AI-powered savings advice
                     </p>
                   </div>
                 </div>
@@ -519,7 +519,7 @@ const DashboardPage = () => {
             >
               <div className="flex items-center justify-between mb-8">
                 <h3 className="font-display text-h3 text-loopfund-neutral-900 dark:text-loopfund-dark-text">
-                  Recent Goals
+                  My Savings Goals
                 </h3>
                 <Link
                   to="/goals"
@@ -839,7 +839,7 @@ const DashboardPage = () => {
                   <Brain className="w-6 h-6 text-white" />
                 </motion.div>
                 <h2 className="font-display text-h4 text-loopfund-neutral-900 dark:text-loopfund-dark-text">
-                  AI Financial Advisor
+                  Smart Savings Advisor
                 </h2>
               </div>
               <Link 
@@ -850,7 +850,7 @@ const DashboardPage = () => {
               </Link>
             </div>
             <p className="font-body text-body text-loopfund-neutral-600 dark:text-loopfund-neutral-400 mb-6">
-              Get personalized financial advice and savings plans from our AI advisor.
+              Get personalized savings advice and smart strategies to reach your goals faster.
             </p>
             <AIFinancialAdvisor />
           </div>

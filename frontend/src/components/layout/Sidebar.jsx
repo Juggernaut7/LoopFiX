@@ -36,7 +36,8 @@ import {
   PiggyBank,
   Building2,
   UserPlus,
-  Share2
+  Share2,
+  Trophy
 } from 'lucide-react';
 import walletService from '../../services/walletService';
 import logo1 from '../../assets/logo1.jpg';
@@ -81,7 +82,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, unreadCount = 0 }) => {
     setShowComingSoonModal(true);
   };
 
-  // Main navigation items - 4 core sections only
+  // Main navigation items - Core sections
   const mainMenuItems = [
     {
       title: 'Dashboard',
@@ -103,6 +104,30 @@ const Sidebar = ({ isCollapsed, toggleSidebar, unreadCount = 0 }) => {
       path: '/app/earn',
       badge: null,
       description: 'Earn yield on your savings'
+    },
+    {
+      title: 'AI Advisor',
+      icon: Brain,
+      path: '/app/ai-advisor',
+      badge: 'Soon',
+      description: 'AI-powered financial advice',
+      comingSoon: true
+    },
+    {
+      title: 'NFTs',
+      icon: Award,
+      path: '/app/nft',
+      badge: 'Soon',
+      description: 'Achievement NFTs',
+      comingSoon: true
+    },
+    {
+      title: 'Leaderboard',
+      icon: Trophy,
+      path: '/app/leaderboard',
+      badge: 'Soon',
+      description: 'Community rankings',
+      comingSoon: true
     },
     {
       title: 'Settings',

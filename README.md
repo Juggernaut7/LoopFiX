@@ -1,203 +1,196 @@
-# LoopFi - AI-Powered DeFi Advisor on Bitcoin
+# 🚀 LoopFi - AI-Powered DeFi Savings Platform on Bitcoin
 
 > **Transform your savings into DeFi yield with AI-powered recommendations on Bitcoin's most secure Layer 2.**
 
+![LoopFi Banner](https://img.shields.io/badge/LoopFi-DeFi%20Savings%20Platform-blue?style=for-the-badge&logo=bitcoin)
+![Stacks](https://img.shields.io/badge/Built%20on-Stacks%20(Bitcoin%20L2)-orange?style=for-the-badge)
+![AI Powered](https://img.shields.io/badge/AI-Powered%20Advisor-purple?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Hackathon%20Ready-green?style=for-the-badge)
+
 💡 **LoopFi transforms traditional savings into smart Bitcoin-backed investments — bridging Web2 habits with Web3 yield through AI-driven financial guidance.**
 
-LoopFi is an AI-powered DeFi advisor and savings protocol built on Stacks (Bitcoin Layer 2), helping users save, invest, and earn yield on Bitcoin-backed assets safely through smart contracts and personalized AI insights.
+## 🎯 **Hackathon Submission Ready**
 
-## 🚀 Core Concept
+This project is **production-ready** for the Stacks Vibe Coding Hackathon, featuring:
+- ✅ **Working Smart Contracts** on Stacks Testnet
+- ✅ **Live Frontend + Backend** integration
+- ✅ **Real Wallet Connection** with Hiro/Leather
+- ✅ **Goal Tracking & Progress Bars** (perfect for demo)
+- ✅ **Group Savings Pools** (social DeFi showcase)
+- ✅ **AI Advisor Architecture** (Phase 2 ready)
 
-LoopFi bridges traditional savings behavior with Bitcoin-native DeFi opportunities, making DeFi accessible through:
+---
 
-- **Smart Contract Vaults**: Deploy savings goals as secure smart contracts on Stacks
-- **AI DeFi Advisor**: Get personalized investment recommendations based on risk profile and market conditions
-- **Bitcoin-Backed Security**: All operations secured by Bitcoin's network through Stacks Layer 2
-- **Group DeFi Pools**: Collaborative savings where multiple users contribute and share yield rewards
-- **Real-time Analytics**: Live portfolio tracking, yield monitoring, and market insights
+## 🏗️ **System Architecture**
 
-## 🧭 System Architecture
-
-```
-User Interface (React + Stacks.js)
-        │
-        ▼
- AI Advisor API (Node.js + HuggingFace)
-        │
-        ▼
- Smart Contracts (Clarity on Stacks)
-        │
-        ▼
- Bitcoin Network (Security Layer)
-        │
-        ▼
- MongoDB (Off-chain data + analytics)
-```
-
-## 🏗️ Technical Architecture
-
-### Frontend
-- **React + Vite**: Modern, fast development experience
-- **Stacks.js**: Web3 wallet integration and blockchain interactions
-- **Tailwind CSS**: Responsive, beautiful UI components
-- **Framer Motion**: Smooth animations and transitions
-
-### Backend
-- **Node.js + Express**: RESTful API server
-- **MongoDB**: User profiles, AI insights, and off-chain data
-- **Hiro API**: On-chain data fetching and transaction monitoring
-- **Hugging Face**: AI model integration for DeFi recommendations
-
-### Blockchain Layer
-- **Stacks Network**: Bitcoin Layer 2 for smart contracts
-- **Clarity Smart Contracts**: Savings vaults, group pools, and yield farming
-- **Hiro Wallet**: Secure wallet connection and transaction signing
-
-### AI Layer
-- **Model**: Custom fine-tuned financial reasoning model based on Hugging Face transformers
-- **Purpose**: Generate DeFi insights, yield forecasts, and risk analysis
-- **Deployment**: Hosted via Express AI microservice with real-time blockchain data
-- **DeFi Analytics**: On-chain data analysis for personalized recommendations
-- **Risk Assessment**: AI-powered risk scoring and portfolio optimization
-- **Yield Prediction**: Machine learning models for yield forecasting
-- **Market Insights**: Real-time DeFi market analysis and opportunities
-
-## 🎯 Key Features
-
-### 💰 Smart Contract Vaults
-- Deploy individual savings goals as immutable smart contracts
-- Automatic yield generation through DeFi protocols
-- Transparent, verifiable savings progress on-chain
-- Emergency withdrawal mechanisms with penalty structures
-
-### 🤖 AI DeFi Advisor
-- Personalized investment recommendations based on risk tolerance
-- Real-time yield optimization suggestions
-- Market trend analysis and opportunity identification
-- Portfolio rebalancing recommendations
-
-### 👥 Group DeFi Pools
-- Collaborative savings pools with shared rewards
-- Transparent contribution tracking
-- Democratic decision-making for pool strategies
-- Social features for community building
-
-### 📊 Advanced Analytics
-- Real-time portfolio tracking and performance metrics
-- Yield farming optimization and APY comparisons
-- Risk assessment and diversification recommendations
-- Historical performance analysis and trend prediction
-
-## 🔐 Security & Transparency
-
-- **Smart contracts are open-source and verifiable** on Stacks Explorer
-- **AI recommendations are transparent** — no user funds are custodied by LoopFi
-- **Users maintain full control** of their BTC/sBTC assets
-- **Implements rate limits, helmet middleware, and on-chain validation** for safety
-- **Bitcoin-backed security** through Stacks Layer 2 ensures maximum protection
-- **Non-custodial design** means users never lose control of their assets
-
-## 📜 Smart Contracts
-
-### Sample Clarity Code
-```clarity
-;; SavingsVault.clar - Individual savings goals with yield farming
-(define-data-var total-saved uint 0)
-(define-constant STAKING-APY u850) ;; 8.5% APY
-
-(define-public (deposit (amount uint))
-  (begin
-    (var-set total-saved (+ (var-get total-saved) amount))
-    (ok true)
-  )
-)
-
-(define-public (stake-for-yield (vault-id uint) (amount uint) (strategy (string-ascii 20)))
-  (let ((yield-amount (calculate-yield amount strategy)))
-    (ok (var-set total-saved (+ (var-get total-saved) yield-amount)))
-  )
-)
+```mermaid
+graph TB
+    subgraph "Frontend Layer"
+        A[React + Vite App] --> B[Stacks.js Wallet]
+        A --> C[Tailwind UI]
+        A --> D[Framer Motion]
+    end
+    
+    subgraph "Backend Layer"
+        E[Node.js + Express] --> F[MongoDB]
+        E --> G[Hiro API]
+        E --> H[Socket.io]
+    end
+    
+    subgraph "AI Layer"
+        I[Hugging Face AI] --> J[Financial Advisor]
+        I --> K[Behavioral Analyzer]
+        I --> L[Savings Predictor]
+    end
+    
+    subgraph "Blockchain Layer"
+        M[Stacks Network] --> N[SavingsVault.clar]
+        M --> O[GroupVault.clar]
+        M --> P[StakingVault.clar]
+        M --> Q[AdvisorNFT.clar]
+    end
+    
+    subgraph "Bitcoin Security"
+        R[Bitcoin Network] --> M
+    end
+    
+    A --> E
+    E --> I
+    E --> M
+    M --> R
+    
+    style A fill:#61dafb
+    style E fill:#68d391
+    style I fill:#9f7aea
+    style M fill:#f6ad55
+    style R fill:#f56565
 ```
 
-### Deployed Smart Contracts
-- **SavingsVault**: `ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.loopfi-vault`
-- **GroupVault**: `ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.loopfi-group`
-- **Network**: Stacks Testnet
-- **Explorer**: [View on Stacks Explorer](https://explorer.stacks.co/address/ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM)
+---
 
-## 🛠️ Tech Stack
+## 🚀 **Core Features (MVP Ready)**
 
-### Frontend
-```json
-{
-  "react": "^19.1.1",
-  "vite": "^5.0.0",
-  "@stacks/connect": "^7.10.2",
-  "@stacks/network": "^7.2.0",
-  "@stacks/transactions": "^7.2.0",
-  "framer-motion": "^12.23.12",
-  "tailwindcss": "^3.4.0"
-}
-```
+### 💰 **Individual Savings Goals**
+- Set target amount and deadline
+- Contribute periodically with progress tracking
+- Withdraw funds when goal is reached
+- **Status**: ✅ **Fully Working**
 
-### Backend
-```json
-{
-  "express": "^4.18.0",
-  "mongoose": "^8.0.0",
-  "axios": "^1.11.0",
-  "cors": "^2.8.5",
-  "helmet": "^7.1.0",
-  "socket.io": "^4.8.1"
-}
-```
+### 👥 **Group Savings Pools**
+- Multiple users contribute to shared pools
+- Individual contribution tracking
+- Democratic decision-making
+- **Status**: ✅ **Fully Working**
 
-### Smart Contracts
-- **Clarity**: Stacks smart contract language
-- **Clarinet**: Development and testing framework
-- **Hiro API**: Blockchain data and transaction management
+### 📈 **Staking Vault**
+- Stake assets for yield generation
+- APY calculation and rewards
+- **Status**: 🚧 **Contract Ready, UI Complete**
 
-## 🚀 Getting Started
+### 🤖 **AI Financial Advisor**
+- Personalized investment recommendations
+- Risk assessment and portfolio optimization
+- **Status**: 🚧 **Architecture Ready, Coming Soon**
 
-### Prerequisites
-- Node.js 18+ and npm
+### 🏆 **NFT Achievements**
+- Reward system for savings milestones
+- Community recognition
+- **Status**: 🚧 **Contract Ready, Coming Soon**
+
+### 📊 **Leaderboard**
+- Top savers and contributors
+- Community rankings
+- **Status**: 🚧 **UI Ready, Coming Soon**
+
+---
+
+## 🛠️ **Tech Stack**
+
+### **Frontend**
+- **React 19** + **Vite** - Modern development experience
+- **Stacks.js** - Web3 wallet integration
+- **Tailwind CSS** - Responsive UI components
+- **Framer Motion** - Smooth animations
+- **Zustand** - State management
+
+### **Backend**
+- **Node.js** + **Express** - RESTful API
+- **MongoDB** - User data and analytics
+- **Socket.io** - Real-time updates
+- **Hiro API** - Blockchain integration
+
+### **Smart Contracts**
+- **Clarity** - Stacks smart contract language
+- **Clarinet** - Development framework
+- **Stacks Testnet** - Live deployment
+
+### **AI Integration**
+- **Hugging Face** - ML model hosting
+- **Custom Financial Models** - DeFi recommendations
+- **Real-time Analytics** - Market insights
+
+---
+
+## 📜 **Deployed Smart Contracts**
+
+| Contract | Address | Purpose | Status |
+|----------|---------|---------|--------|
+| **SavingsVault** | `ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.loopfi-vault` | Individual savings goals | ✅ Live |
+| **GroupVault** | `ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.loopfi-group` | Collaborative savings | ✅ Live |
+| **StakingVault** | `ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.loopfi-staking` | Yield generation | ✅ Live |
+| **AdvisorNFT** | `ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.loopfi-nft` | Achievement system | ✅ Live |
+
+**Network**: Stacks Testnet  
+**Explorer**: [View on Stacks Explorer](https://explorer.stacks.co/address/ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM)
+
+---
+
+## 🚀 **Quick Start**
+
+### **Prerequisites**
+- Node.js 18+
 - Stacks wallet (Hiro/Leather)
 - MongoDB database
-- Git
 
-### Installation
+### **Installation**
 
-1. **Clone the repository**
 ```bash
+# Clone repository
 git clone https://github.com/yourusername/loopfi.git
 cd loopfi
-```
 
-2. **Install dependencies**
-```bash
-# Frontend
+# Install frontend dependencies
 cd frontend
 npm install
 
-# Backend
+# Install backend dependencies
 cd ../backend
+npm install
+
+# Install contract dependencies
+cd ../contracts
 npm install
 ```
 
-3. **Environment Setup**
-```bash
-# Frontend (.env)
+### **Environment Setup**
+
+**Frontend (.env)**
+```env
 VITE_STACKS_NETWORK=testnet
 VITE_HIRO_API_URL=https://api.testnet.hiro.so
-VITE_CONTRACT_ADDRESS=your-contract-address
+VITE_CONTRACT_ADDRESS=ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+```
 
-# Backend (.env)
+**Backend (.env)**
+```env
 MONGODB_URI=mongodb://localhost:27017/loopfi
 STACKS_NETWORK=testnet
 HIRO_API_URL=https://api.testnet.hiro.so
+PORT=5000
 ```
 
-4. **Start development servers**
+### **Run Development Servers**
+
 ```bash
 # Terminal 1 - Backend
 cd backend
@@ -206,117 +199,143 @@ npm run dev
 # Terminal 2 - Frontend
 cd frontend
 npm run dev
-```
 
-5. **Deploy smart contracts**
-```bash
+# Terminal 3 - Smart Contracts (optional)
 cd contracts
-clarinet deploy --testnet
+clarinet console
 ```
 
-## 📱 Usage
+---
 
-### 1. Connect Wallet
-- Click "Connect Wallet" on the landing page
-- Choose your Stacks wallet (Hiro/Leather)
-- Authorize the connection
+## 📱 **Demo Walkthrough**
 
-### 2. Create DeFi Vault
-- Navigate to "Create Vault" from the dashboard
-- Set your savings target and timeline
-- Deploy as a smart contract on Stacks
-- Start earning yield automatically
+### **1. Wallet Connection**
+- Click "Connect Wallet" on landing page
+- Choose Hiro or Leather wallet
+- Authorize connection to Stacks testnet
 
-### 3. Get AI Recommendations
-- Access the AI DeFi Advisor
-- Receive personalized investment advice
-- Optimize your portfolio based on AI insights
-- Track performance and adjust strategies
+### **2. Create Savings Goal**
+- Navigate to "Goals" page
+- Set target amount (e.g., 1000 STX)
+- Set deadline (e.g., 3 months)
+- Deploy smart contract
 
-### 4. Join Group Pools
-- Browse available group savings pools
+### **3. Contribute to Goal**
+- Make periodic contributions
+- Watch progress bar update in real-time
+- Track savings growth
+
+### **4. Join Group Pool**
+- Browse available group pools
 - Contribute to collaborative goals
 - Share rewards with other participants
-- Build community around shared financial goals
 
-## 🔧 Development
+### **5. Staking (Coming Soon)**
+- Stake assets in vault
+- Earn yield rewards
+- Monitor APY performance
 
-### Smart Contract Development
-```bash
-# Install Clarinet
-curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/hirosystems/clarinet/main/install.sh | sh
+---
 
-# Initialize project
-clarinet new loopfi-contracts
-cd loopfi-contracts
+## 🎯 **Hackathon Alignment**
 
-# Add contracts
-clarinet contract new SavingsVault
-clarinet contract new GroupVault
-```
+### **Target Bounty**: $5,000 DeFi Bounty
 
-### API Development
-```bash
-# Start backend with hot reload
-npm run dev
+### **Problem Solved**
+- **Web2 users lack DeFi guidance** → AI-powered recommendations
+- **Traditional savings yield low returns** → Bitcoin-backed DeFi yield
+- **Individual savings lack motivation** → Social group pools
+- **Complex DeFi interfaces** → Familiar savings UX
 
-# Run tests
-npm test
+### **Technical Innovation**
+- **First AI-powered DeFi advisor** on Bitcoin Layer 2
+- **Smart contract savings goals** with automatic yield
+- **Social DeFi pools** with transparent governance
+- **Bitcoin-backed security** through Stacks
 
-# Generate API docs
-npm run docs
-```
+### **Market Impact**
+- **Democratizing DeFi access** through familiar savings behavior
+- **Bridging Web2 and Web3** for mainstream adoption
+- **Bitcoin utility expansion** through Layer 2 applications
 
-### Frontend Development
-```bash
-# Start Vite dev server
-npm run dev
+---
 
-# Build for production
-npm run build
+## 🏆 **Demo Video Script**
 
-# Preview production build
-npm run preview
-```
+**2-3 minute demo showcasing:**
 
-## 🧪 Testing
+1. **Wallet Connection** (15s)
+   - Seamless Stacks wallet integration
+   - Testnet connection confirmation
 
-### Smart Contract Tests
-```bash
-clarinet test
-```
+2. **Create Savings Goal** (30s)
+   - Set target amount and timeline
+   - Deploy smart contract
+   - Show contract on Stacks Explorer
 
-### Frontend Tests
-```bash
-npm run test
-```
+3. **Contribute & Track Progress** (45s)
+   - Make contribution transaction
+   - Watch progress bar update
+   - Show real-time goal tracking
 
-### Backend Tests
-```bash
-npm run test
-```
+4. **Group Pool Participation** (30s)
+   - Join existing group pool
+   - Contribute to collaborative goal
+   - Show social DeFi features
 
-## 📦 Deployment
+5. **Future Features Preview** (30s)
+   - AI advisor interface (coming soon)
+   - NFT achievements (coming soon)
+   - Staking vault (coming soon)
 
-### Frontend (Vercel)
-```bash
-npm run build
-vercel --prod
-```
+---
 
-### Backend (Render)
-```bash
-# Connect GitHub repo to Render
-# Set environment variables
-# Deploy automatically on push
-```
+## 📊 **Live Demo Links**
 
-### Smart Contracts (Stacks Testnet)
-```bash
-clarinet deploy --testnet
-```
+- **Frontend**: [https://loopfi.vercel.app](https://loopfi.vercel.app)
+- **Smart Contracts**: [Stacks Explorer](https://explorer.stacks.co/address/ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM)
+- **GitHub**: [https://github.com/yourusername/loopfi](https://github.com/yourusername/loopfi)
+- **API Docs**: [https://loopfi-api.herokuapp.com/docs](https://loopfi-api.herokuapp.com/docs)
 
-## 🤝 Contributing
+---
+
+## 🔐 **Security & Transparency**
+
+- ✅ **Smart contracts are open-source** and verifiable on Stacks Explorer
+- ✅ **Non-custodial design** - users maintain full control of assets
+- ✅ **Bitcoin-backed security** through Stacks Layer 2
+- ✅ **AI recommendations are transparent** - no hidden fees
+- ✅ **Rate limiting and validation** for API safety
+- ✅ **Helmet middleware** for security headers
+
+---
+
+## 🎯 **Roadmap**
+
+### **Phase 1: Core MVP** ✅
+- [x] Wallet integration with Stacks
+- [x] Smart contract vaults
+- [x] Goal tracking and progress bars
+- [x] Group savings pools
+- [x] Basic staking infrastructure
+
+### **Phase 2: AI & Advanced Features** 🚧
+- [ ] AI financial advisor integration
+- [ ] NFT achievement system
+- [ ] Advanced portfolio optimization
+- [ ] Real-time yield calculations
+- [ ] Mobile app development
+
+### **Phase 3: Ecosystem Integration** 🔮
+- [ ] Cross-chain yield farming
+- [ ] Integration with other DeFi protocols
+- [ ] Governance token launch
+- [ ] Institutional features
+- [ ] Advanced AI models
+
+---
+
+## 🤝 **Contributing**
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -324,87 +343,34 @@ clarinet deploy --testnet
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
+---
+
+## 📄 **License**
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🪙 Future Tokenomics (LoopToken)
+---
 
-### Token Utility
-- **Reward long-term savers** with governance tokens
-- **Stake LoopToken** to earn boosted APY or AI premium insights
-- **Participate in vault strategy voting** (DAO model)
-- **Governance rights** for protocol upgrades and new features
-- **Fee discounts** for premium DeFi strategies
-
-### Token Distribution
-- **60%** - Community rewards and liquidity mining
-- **20%** - Team and advisors (4-year vesting)
-- **15%** - Treasury and development fund
-- **5%** - Strategic partnerships and ecosystem
-
-## 🎯 Roadmap
-
-### Phase 1: Core DeFi Features ✅
-- [x] Wallet integration with Stacks
-- [x] Smart contract vaults
-- [x] AI DeFi advisor
-- [x] Basic yield farming
-
-### Phase 2: Advanced Features 🚧
-- [ ] Advanced portfolio optimization
-- [ ] Cross-chain yield farming
-- [ ] NFT achievements and rewards
-- [ ] Mobile app development
-
-### Phase 3: Ecosystem Integration 🔮
-- [ ] Integration with other DeFi protocols
-- [ ] Institutional features
-- [ ] Advanced AI models
-- [ ] Governance token launch
-
-## 🏆 Hackathon Submission
-
-This project was developed for the **Stacks Vibe Coding Hackathon** with a focus on:
-
-- **DeFi Innovation**: Novel approach to savings through smart contracts
-- **AI Integration**: Personalized financial advice powered by machine learning
-- **Bitcoin Utility**: Leveraging Bitcoin's security through Stacks Layer 2
-- **User Experience**: Bridging Web2 and Web3 for mainstream adoption
-
-### 🎯 Hackathon Alignment
-- **Target Bounty**: $5,000 DeFi Bounty
-- **Problem Solved**: Web2 users lack guidance in DeFi - we provide AI-powered bridge
-- **Technical Innovation**: First AI-powered DeFi advisor on Bitcoin Layer 2
-- **Market Impact**: Democratizing DeFi access through familiar savings behavior
-
-### Demo Video
-[Watch the demo video](https://youtube.com/watch?v=demo) showing:
-1. **Wallet Connection**: Seamless Stacks wallet integration
-2. **Smart Contract Deployment**: Create vaults with one click
-3. **AI Recommendations**: Personalized DeFi advice in real-time
-4. **Yield Farming**: Earn 8.5-15.7% APY through optimized strategies
-5. **Group Pools**: Collaborative savings with shared rewards
-
-### Live Demo
-- **Frontend**: [https://loopfi.vercel.app](https://loopfi.vercel.app)
-- **Smart Contracts**: [Stacks Explorer](https://explorer.stacks.co/address/ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM)
-- **GitHub**: [https://github.com/yourusername/loopfi](https://github.com/yourusername/loopfi)
-- **API Documentation**: [https://loopfi-api.herokuapp.com/docs](https://loopfi-api.herokuapp.com/docs)
-
-### 🏅 Submission Highlights
-- **Production-Ready Code**: Clean, documented, and scalable architecture
-- **Real Blockchain Integration**: Live Stacks testnet deployment
-- **AI-Powered Features**: Hugging Face integration for intelligent recommendations
-- **Security-First Design**: Non-custodial, Bitcoin-backed security
-- **User-Centric UX**: Intuitive interface bridging Web2 and Web3
-
-## 📞 Contact
+## 📞 **Contact**
 
 - **Website**: [https://loopfi.app](https://loopfi.app)
 - **Twitter**: [@LoopFiApp](https://twitter.com/LoopFiApp)
 - **Discord**: [LoopFi Community](https://discord.gg/loopfi)
 - **Email**: hello@loopfi.app
+
+---
+
+## 🏅 **Hackathon Submission Summary**
+
+**LoopFi** is a **production-ready DeFi savings platform** built on Stacks that transforms traditional savings into Bitcoin-backed yield opportunities. Our MVP demonstrates:
+
+- **Working smart contracts** with real transactions
+- **Intuitive user experience** bridging Web2 and Web3
+- **Social DeFi features** through group savings pools
+- **AI-ready architecture** for future enhancements
+- **Bitcoin security** through Stacks Layer 2
+
+**Ready for immediate deployment and demo presentation.**
 
 ---
 

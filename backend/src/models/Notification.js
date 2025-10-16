@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const NotificationSchema = new mongoose.Schema({
   user: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
-    required: true 
+    type: String, 
+    required: true,
+    trim: true
   },
   title: { 
     type: String, 
@@ -40,10 +40,10 @@ const NotificationSchema = new mongoose.Schema({
     default: false 
   },
   metadata: {
-    goalId: { type: mongoose.Schema.Types.ObjectId, ref: 'Goal' },
-    groupId: { type: mongoose.Schema.Types.ObjectId, ref: 'Group' },
-    achievementId: { type: mongoose.Schema.Types.ObjectId, ref: 'Achievement' },
-    contributionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Contribution' },
+    goalId: { type: String, trim: true },
+    groupId: { type: String, trim: true },
+    achievementId: { type: String, trim: true },
+    contributionId: { type: String, trim: true },
     amount: { type: Number },
     targetAmount: { type: Number },
     progress: { type: Number }

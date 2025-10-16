@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const GoalSchema = new mongoose.Schema({
   user: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
-    required: true 
+    type: String, 
+    required: true,
+    trim: true
   },
   name: { 
     type: String, 
@@ -50,10 +50,10 @@ const GoalSchema = new mongoose.Schema({
     type: Date 
   },
   contributions: [{
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    userId: { type: String, required: true, trim: true },
     amount: { type: Number, required: true, min: 0 },
     description: { type: String, trim: true },
-    paymentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Payment' },
+    paymentId: { type: String, trim: true },
     paidAt: { type: Date, default: Date.now },
     status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'completed' }
   }]

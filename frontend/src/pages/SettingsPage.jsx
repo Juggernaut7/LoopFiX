@@ -17,6 +17,7 @@ import {
 import { useTheme } from '../context/ThemeContext';
 import { useAuthWithToast } from '../hooks/useAuthWithToast';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '../context/ToastContext';
 import LoopFundCard from '../components/ui/LoopFundCard';
 import LoopFundButton from '../components/ui/LoopFundButton';
 import stacksService from '../services/stacksService';
@@ -28,6 +29,7 @@ const SettingsPage = () => {
   const { theme, toggleTheme, isDark } = useTheme();
   const { logout } = useAuthWithToast();
   const navigate = useNavigate();
+  const toast = useToast();
 
   useEffect(() => {
     const connectionStatus = stacksService.getConnectionStatus();
@@ -43,7 +45,7 @@ const SettingsPage = () => {
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(walletAddress);
-    // You could add a toast notification here
+    toast.success('Wallet address copied to clipboard!');
   };
 
   const handleViewExplorer = () => {
@@ -105,17 +107,19 @@ const SettingsPage = () => {
                 />
                 <LoopFundButton
                   variant="secondary"
-                  size="sm"
+                  size="lg"
                   onClick={handleCopyAddress}
+                  className="px-4 py-3 rounded-xl"
                 >
-                  <Copy className="w-4 h-4" />
+                  <Copy className="w-5 h-5" />
                 </LoopFundButton>
                 <LoopFundButton
                   variant="secondary"
-                  size="sm"
+                  size="lg"
                   onClick={handleViewExplorer}
+                  className="px-4 py-3 rounded-xl"
                 >
-                  <ExternalLink className="w-4 h-4" />
+                  <ExternalLink className="w-5 h-5" />
                 </LoopFundButton>
               </div>
             </div>
@@ -125,7 +129,7 @@ const SettingsPage = () => {
                 Network
               </label>
               <div className="flex items-center space-x-2">
-                <Globe className="w-4 h-4 text-loopfund-neutral-500" />
+                <Globe className="w-5 h-5 text-loopfund-neutral-500" />
                 <span className="text-loopfund-neutral-900 dark:text-loopfund-dark-text">
                   {network}
                 </span>
@@ -161,9 +165,9 @@ const SettingsPage = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 {isDark ? (
-                  <Moon className="w-5 h-5 text-loopfund-neutral-600 dark:text-loopfund-neutral-400" />
+                  <Moon className="w-6 h-6 text-loopfund-neutral-600 dark:text-loopfund-neutral-400" />
                 ) : (
-                  <Sun className="w-5 h-5 text-loopfund-neutral-600 dark:text-loopfund-neutral-400" />
+                  <Sun className="w-6 h-6 text-loopfund-neutral-600 dark:text-loopfund-neutral-400" />
                 )}
                 <div>
                   <h3 className="font-medium text-loopfund-neutral-900 dark:text-loopfund-dark-text">
@@ -176,8 +180,9 @@ const SettingsPage = () => {
               </div>
               <LoopFundButton
                 variant="secondary"
-                size="sm"
+                size="lg"
                 onClick={toggleTheme}
+                className="px-6 py-3 rounded-xl font-semibold"
               >
                 {isDark ? 'Light' : 'Dark'}
               </LoopFundButton>
@@ -186,7 +191,7 @@ const SettingsPage = () => {
             {/* Notifications Toggle */}
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <Bell className="w-5 h-5 text-loopfund-neutral-600 dark:text-loopfund-neutral-400" />
+                <Bell className="w-6 h-6 text-loopfund-neutral-600 dark:text-loopfund-neutral-400" />
                 <div>
                   <h3 className="font-medium text-loopfund-neutral-900 dark:text-loopfund-dark-text">
                     Notifications
@@ -197,13 +202,16 @@ const SettingsPage = () => {
                 </div>
               </div>
               <button
-                onClick={() => setNotifications(!notifications)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                onClick={() => {
+                  setNotifications(!notifications);
+                  toast.success(notifications ? 'Notifications disabled' : 'Notifications enabled');
+                }}
+                className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors ${
                   notifications ? 'bg-loopfund-emerald-500' : 'bg-loopfund-neutral-300 dark:bg-loopfund-neutral-600'
                 }`}
               >
                 <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${
                     notifications ? 'translate-x-6' : 'translate-x-1'
                   }`}
                 />
@@ -237,41 +245,53 @@ const SettingsPage = () => {
           <div className="space-y-4">
             <LoopFundButton
               variant="secondary"
-              size="md"
-              onClick={() => window.open('https://docs.loopfi.com', '_blank')}
-              className="w-full justify-start"
+              size="lg"
+              onClick={() => {
+                window.open('https://docs.loopfi.com', '_blank');
+                toast.success('Opening documentation...');
+              }}
+              className="w-full justify-start py-4 text-lg font-semibold rounded-xl"
             >
-              <ExternalLink className="w-4 h-4 mr-3" />
+              <ExternalLink className="w-5 h-5 mr-3" />
               Documentation
             </LoopFundButton>
             
             <LoopFundButton
               variant="secondary"
-              size="md"
-              onClick={() => window.open('https://discord.gg/loopfi', '_blank')}
-              className="w-full justify-start"
+              size="lg"
+              onClick={() => {
+                window.open('https://discord.gg/loopfi', '_blank');
+                toast.success('Opening Discord community...');
+              }}
+              className="w-full justify-start py-4 text-lg font-semibold rounded-xl"
             >
-              <ExternalLink className="w-4 h-4 mr-3" />
+              <ExternalLink className="w-5 h-5 mr-3" />
               Discord Community
             </LoopFundButton>
             
             <LoopFundButton
               variant="secondary"
-              size="md"
-              onClick={() => window.open('https://twitter.com/loopfi', '_blank')}
-              className="w-full justify-start"
+              size="lg"
+              onClick={() => {
+                window.open('https://twitter.com/loopfi', '_blank');
+                toast.success('Opening Twitter...');
+              }}
+              className="w-full justify-start py-4 text-lg font-semibold rounded-xl"
             >
-              <ExternalLink className="w-4 h-4 mr-3" />
+              <ExternalLink className="w-5 h-5 mr-3" />
               Twitter
             </LoopFundButton>
             
             <LoopFundButton
               variant="secondary"
-              size="md"
-              onClick={handleContactSupport}
-              className="w-full justify-start"
+              size="lg"
+              onClick={() => {
+                handleContactSupport();
+                toast.success('Opening email client...');
+              }}
+              className="w-full justify-start py-4 text-lg font-semibold rounded-xl"
             >
-              <Mail className="w-4 h-4 mr-3" />
+              <Mail className="w-5 h-5 mr-3" />
               Contact Support
             </LoopFundButton>
           </div>
@@ -301,11 +321,14 @@ const SettingsPage = () => {
 
           <LoopFundButton
             variant="secondary"
-            size="md"
-            onClick={handleDisconnect}
-            className="w-full bg-loopfund-coral-50 dark:bg-loopfund-coral-900/20 text-loopfund-coral-700 dark:text-loopfund-coral-300 hover:bg-loopfund-coral-100 dark:hover:bg-loopfund-coral-900/30"
+            size="lg"
+            onClick={() => {
+              handleDisconnect();
+              toast.success('Wallet disconnected successfully');
+            }}
+            className="w-full py-4 text-lg font-semibold rounded-xl bg-loopfund-coral-50 dark:bg-loopfund-coral-900/20 text-loopfund-coral-700 dark:text-loopfund-coral-300 hover:bg-loopfund-coral-100 dark:hover:bg-loopfund-coral-900/30"
           >
-            <LogOut className="w-4 h-4 mr-2" />
+            <LogOut className="w-5 h-5 mr-2" />
             Disconnect Wallet
           </LoopFundButton>
         </LoopFundCard>

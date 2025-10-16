@@ -11,14 +11,14 @@ const GroupSchema = new mongoose.Schema({
     default: 'active' 
   },
   members: [{ 
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    user: { type: String, required: true, trim: true },
     role: { type: String, enum: ['owner', 'admin', 'member'], default: 'member' },
     joinedAt: { type: Date, default: Date.now },
     isActive: { type: Boolean, default: true },
     totalContributed: { type: Number, default: 0 },
     lastContributionDate: { type: Date }
   }],
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  createdBy: { type: String, required: true, trim: true },
   settings: {
     isPublic: { type: Boolean, default: false },
     allowInvites: { type: Boolean, default: true },
@@ -57,10 +57,10 @@ const GroupSchema = new mongoose.Schema({
   },
   // Contributions tracking
   contributions: [{
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    userId: { type: String, required: true, trim: true },
     amount: { type: Number, required: true, min: 0 },
     description: { type: String, trim: true },
-    paymentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Payment' },
+    paymentId: { type: String, trim: true },
     paidAt: { type: Date, default: Date.now },
     status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'completed' }
   }]
